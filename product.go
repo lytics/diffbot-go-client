@@ -10,26 +10,26 @@ import (
 
 // See http://www.diffbot.com/dev/docs/product/
 type Product struct {
-	Type          string `json:"type"`
-	PageUrl       string `json:"pageUrl"`
-	ResolvedUrl   string `json:"resolvedPageUrl,omitempty"`
-	Title         string `json:"title"`
-	HumanLanguage string `json:"humanLanguage,omitempty"`
-	DiffbotUri    string `json:"diffbotUri"`
+	Type            string `json:"type"`
+	PageUrl         string `json:"pageUrl"`
+	ResolvedPageUrl string `json:"resolvedPageUrl,omitempty"`
+	Title           string `json:"title"`
+	HumanLanguage   string `json:"humanLanguage,omitempty"`
+	DiffbotUri      string `json:"diffbotUri"`
 
 	Text                string                 `json:"text,omitempty"`
-	Images              []productImageType     `json:"images,omitempty"`
+	Images              []*productImageType    `json:"images,omitempty"`
 	Discussion          Discussion             `json:"discussion"`
 	Brand               string                 `json:"brand,omitempty"`
 	OfferPrice          string                 `json:"offerPrice"`
 	RegularPrice        string                 `json:"regularPrice,omitempty"`
 	ShippingAmount      string                 `json:"shippingAmount"`
 	SaveAmount          string                 `json:"saveAmount"`
-	PriceRange          productPriceRange      `json:"priceRange,omitempty"`
-	QuantityPrices      productQuantityPrices  `json:"quantityPrices,omitempty"`
-	OfferPriceDetails   productPriceDetails    `json:"offerPriceDetails,omitempty"`
-	RegularPriceDetails productPriceDetails    `json:"regularPriceDetails,omitempty"`
-	SaveAmountDetails   productPriceDetails    `json:"saveAmountDetails,omitempty"`
+	PriceRange          *productPriceRange     `json:"priceRange,omitempty"`
+	QuantityPrices      *productQuantityPrices `json:"quantityPrices,omitempty"`
+	OfferPriceDetails   *productPriceDetails   `json:"offerPriceDetails,omitempty"`
+	RegularPriceDetails *productPriceDetails   `json:"regularPriceDetails,omitempty"`
+	SaveAmountDetails   *productPriceDetails   `json:"saveAmountDetails,omitempty"`
 	ProductId           string                 `json:"productId"`
 	UPC                 string                 `json:"upc,omitempty"`
 	SKU                 string                 `json:"sku,omitempty"`
@@ -300,19 +300,24 @@ type productImageType struct {
 //
 // curl -H "Content-Type: text/html" -d '<html><head><title>Something to Buy</title></head><body><h2>A Pair of Jeans</h2><div>Price: $31.99</div></body></html>' http://api.diffbot.com/v3/product?token=...&url=http%3A%2F%2Fstore.diffbot.com
 
-func ParseProduct(token, url string, opt *Options) (*Product, error) {
+type productResponse struct {
+	Request *Request   `json:"request"`
+	Objects []*Product `json:"objects"`
+}
+
+func ParseProduct(token, url string, opt *Options) (*productResponse, error) {
 	body, err := Diffbot("product", token, url, opt)
 	if err != nil {
 		return nil, err
 	}
-	var result Product
+	var result productResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-func (p *Product) String() string {
+func (p *productResponse) String() string {
 	d, _ := json.Marshal(p)
 	return string(d)
 }

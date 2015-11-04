@@ -4,9 +4,7 @@
 
 package diffbot
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestError(t *testing.T) {
 	var e Error

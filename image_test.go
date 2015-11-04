@@ -11,17 +11,17 @@ import (
 )
 
 func TestImage_type(t *testing.T) {
-	var a Image
-	a.Images = append(a.Images, imageImageType{})
+	var a imageResponse
+	a.Objects = append(a.Objects, &Image{})
 	_ = a
 }
 
 func TestImage_parseJson(t *testing.T) {
-	var result1 Image
+	var result1 imageResponse
 	if err := json.Unmarshal([]byte(testJsonDataImage), &result1); err != nil {
 		t.Fatal(err)
 	}
-	var result2 Image
+	var result2 imageResponse
 	if err := json.Unmarshal([]byte(result1.String()), &result2); err != nil {
 		t.Fatal(err)
 	}
@@ -29,165 +29,79 @@ func TestImage_parseJson(t *testing.T) {
 		t.Fatalf("not equal, expect = %q, got = %q", result1, result2)
 	}
 
-	images := result1.Images
-	result1.Images = nil
-
 	if !reflect.DeepEqual(testGoldenImage, result1) {
 		t.Fatalf("not equal, expect = \n%q, got = \n%q", testGoldenImage, result1)
 	}
-	for i := 0; i < len(images) && i < len(testGoldenImageImages); i++ {
-		if !reflect.DeepEqual(testGoldenImageImages[i], imageImageType(images[i])) {
-			t.Fatalf("%d: not equal, expect = \n%q, got = \n%q", i, testGoldenImageImages[i], images[i])
-		}
-	}
 }
 
-var testGoldenImage = Image{
-	Title:       "The National Flower - Rose",
-	NextPage:    "",
-	AlbumUrl:    "",
-	Url:         "http://www.statesymbolsusa.org/National_Symbols/National_flower.html",
-	ResolvedUrl: "",
-	Meta:        nil,
-	QueryString: "",
-	Links:       nil,
-}
-var testGoldenImageImages = []imageImageType{
-	{
-		Url:           "http://www.statesymbolsusa.org/IMAGES/rose_usda-web.jpg",
-		AnchorUrl:     "",
-		Mime:          "",
-		Caption:       "",
-		AttrAlt:       "Red rose in full bloom - click to see state flowers",
-		AttrTitle:     "",
-		Date:          "",
-		Size:          12328,
-		PixelHeight:   371, // doc error
-		PixelWidth:    300,
-		DisplayHeight: 371,
-		DisplayWidth:  300,
-		Meta: []string{
-			"[Jpeg] Compression Type - Baseline",
-			"[Jpeg] Data Precision - 8 bits",
-			"[Jpeg] Image Height - 371 pixels",
-			"[Jpeg] Image Width - 300 pixels",
-			"[Jpeg] Number of Components - 3",
-			"[Jpeg] Component 1 - Y component: Quantization table 0, Sampling factors 2 horiz/2 vert",
-			"[Jpeg] Component 2 - Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-			"[Jpeg] Component 3 - Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-			"[Jfif] Version - 1.2",
-			"[Jfif] Resolution Units - none",
-			"[Jfif] X Resolution - 100 dots",
-			"[Jfif] Y Resolution - 100 dots",
-			"[Adobe Jpeg] DCT Encode Version - 1",
-			"[Adobe Jpeg] Flags 0 - 192",
-			"[Adobe Jpeg] Flags 1 - 0",
-			"[Adobe Jpeg] Color Transform - YCbCr",
-		},
-		Faces:  nil,
-		Ocr:    "",
-		Colors: "",
-		XPath:  "/HTML[1]/BODY[1]/DIV[1]/TABLE[3]/TBODY[1]/TR[2]/TD[4]/DIV[1]/DIV[1]/H6[1]/SPAN[1]/A[1]/IMG[1]",
+var testGoldenImage = imageResponse{
+	Request: &Request{
+		PageUrl: "http://www.diffbot.com/products",
+		Options: []string{},
+		API:     "image",
+		Version: 3,
 	},
-	{
-		Url:           "http://www.statesymbolsusa.org/IMAGES/rose_yellow-380.jpg",
-		AnchorUrl:     "",
-		Mime:          "",
-		Caption:       "",
-		AttrAlt:       "Yellow rose - click to see state flowers",
-		AttrTitle:     "",
-		Date:          "",
-		Size:          12142,
-		PixelHeight:   304, // doc error
-		PixelWidth:    380,
-		DisplayHeight: 304,
-		DisplayWidth:  380,
-		Meta: []string{
-			"[Jpeg] Compression Type - Baseline",
-			"[Jpeg] Data Precision - 8 bits",
-			"[Jpeg] Image Height - 304 pixels",
-			"[Jpeg] Image Width - 380 pixels",
-			"[Jpeg] Number of Components - 3",
-			"[Jpeg] Component 1 - Y component: Quantization table 0, Sampling factors 2 horiz/2 vert",
-			"[Jpeg] Component 2 - Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-			"[Jpeg] Component 3 - Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-			"[Jfif] Version - 1.2",
-			"[Jfif] Resolution Units - none",
-			"[Jfif] X Resolution - 100 dots",
-			"[Jfif] Y Resolution - 100 dots",
-			"[Adobe Jpeg] DCT Encode Version - 1",
-			"[Adobe Jpeg] Flags 0 - 192",
-			"[Adobe Jpeg] Flags 1 - 0",
-			"[Adobe Jpeg] Color Transform - YCbCr",
+	Objects: []*Image{
+		&Image{
+			Type:          "image",
+			Url:           "http://www.diffbot.com/images/image_diffy_sample.png",
+			Title:         "Diffy, climbing a mountain",
+			NaturalHeight: 1158,
+			NaturalWidth:  950,
+			HumanLanguage: "en",
+			PageUrl:       "http://www.diffbot.com/products",
+			XPath:         "/HTML/BODY/DIV[@class='main']/DIV[@id='primaryImage']/IMG",
+			DiffbotUri:    "image|3|-1897071612",
 		},
-		Faces:  nil,
-		Ocr:    "",
-		Colors: "",
-		XPath:  "/HTML[1]/BODY[1]/DIV[1]/TABLE[3]/TBODY[1]/TR[2]/TD[4]/DIV[1]/DIV[1]/TABLE[1]/TBODY[1]/TR[1]/TD[1]/DIV[1]/H6[1]/SPAN[1]/A[1]/IMG[1]",
+		&Image{
+			Type:          "image",
+			Url:           "http://www.diffbot.com/images/image_atopmountain_sample.png",
+			Title:         "Diffy atop said mountain",
+			NaturalHeight: 1120,
+			NaturalWidth:  920,
+			HumanLanguage: "en",
+			AnchorUrl:     "http://www.diffbot.com",
+			PageUrl:       "http://www.diffbot.com/products",
+			XPath:         "/HTML/BODY/DIV[@class='main']/DIV[@id='secondaryImage']/A/IMG",
+			DiffbotUri:    "image|3|-1221792290",
+		},
 	},
 }
 
 const testJsonDataImage = `
 {
-  "title": "The National Flower - Rose",
-  "type": "image",
-  "url": "http://www.statesymbolsusa.org/National_Symbols/National_flower.html",
-  "images": [
+  "request": {
+    "pageUrl": "http://www.diffbot.com/products",
+    "api": "image",
+    "options": [],
+    "fields": "",
+    "version": 3
+  },
+  "objects": [
     {
-      "attrAlt": "Red rose in full bloom - click to see state flowers",
-      "pixelHeight": 371,
-      "pixelWidth": 300,
-      "displayWidth": 300,
-      "meta": [
-          "[Jpeg] Compression Type - Baseline",
-          "[Jpeg] Data Precision - 8 bits",
-          "[Jpeg] Image Height - 371 pixels",
-          "[Jpeg] Image Width - 300 pixels",
-          "[Jpeg] Number of Components - 3",
-          "[Jpeg] Component 1 - Y component: Quantization table 0, Sampling factors 2 horiz/2 vert",
-          "[Jpeg] Component 2 - Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-          "[Jpeg] Component 3 - Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-          "[Jfif] Version - 1.2",
-          "[Jfif] Resolution Units - none",
-          "[Jfif] X Resolution - 100 dots",
-          "[Jfif] Y Resolution - 100 dots",
-          "[Adobe Jpeg] DCT Encode Version - 1",
-          "[Adobe Jpeg] Flags 0 - 192",
-          "[Adobe Jpeg] Flags 1 - 0",
-          "[Adobe Jpeg] Color Transform - YCbCr"
-          ],
-      "url": "http://www.statesymbolsusa.org/IMAGES/rose_usda-web.jpg",
-      "size": 12328,
-      "displayHeight": 371,
-      "xpath": "/HTML[1]/BODY[1]/DIV[1]/TABLE[3]/TBODY[1]/TR[2]/TD[4]/DIV[1]/DIV[1]/H6[1]/SPAN[1]/A[1]/IMG[1]"
+      "title": "Diffy, climbing a mountain",
+      "naturalHeight": 1158,
+      "diffbotUri": "image|3|-1897071612",
+      "pageUrl": "http://www.diffbot.com/products",
+      "humanLanguage": "en",
+      "naturalWidth": 950,
+      "date": "Oct 19, 2013",
+      "type": "image",
+      "url": "http://www.diffbot.com/images/image_diffy_sample.png",
+      "xpath": "/HTML/BODY/DIV[@class='main']/DIV[@id='primaryImage']/IMG"
     },
     {
-      "attrAlt": "Yellow rose - click to see state flowers",
-      "pixelHeight": 304,
-      "pixelWidth": 380,
-      "displayWidth": 380,
-      "meta": [
-          "[Jpeg] Compression Type - Baseline",
-          "[Jpeg] Data Precision - 8 bits",
-          "[Jpeg] Image Height - 304 pixels",
-          "[Jpeg] Image Width - 380 pixels",
-          "[Jpeg] Number of Components - 3",
-          "[Jpeg] Component 1 - Y component: Quantization table 0, Sampling factors 2 horiz/2 vert",
-          "[Jpeg] Component 2 - Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-          "[Jpeg] Component 3 - Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-          "[Jfif] Version - 1.2",
-          "[Jfif] Resolution Units - none",
-          "[Jfif] X Resolution - 100 dots",
-          "[Jfif] Y Resolution - 100 dots",
-          "[Adobe Jpeg] DCT Encode Version - 1",
-          "[Adobe Jpeg] Flags 0 - 192",
-          "[Adobe Jpeg] Flags 1 - 0",
-          "[Adobe Jpeg] Color Transform - YCbCr"
-          ],
-      "url": "http://www.statesymbolsusa.org/IMAGES/rose_yellow-380.jpg",
-      "size": 12142,
-      "displayHeight": 304,
-      "xpath": "/HTML[1]/BODY[1]/DIV[1]/TABLE[3]/TBODY[1]/TR[2]/TD[4]/DIV[1]/DIV[1]/TABLE[1]/TBODY[1]/TR[1]/TD[1]/DIV[1]/H6[1]/SPAN[1]/A[1]/IMG[1]"
+      "title": "Diffy atop said mountain",
+      "naturalHeight": 1120,
+      "diffbotUri": "image|3|-1221792290",
+      "pageUrl": "http://www.diffbot.com/products",
+      "humanLanguage": "en",
+      "naturalWidth": 920,
+      "anchorUrl": "http://www.diffbot.com",
+      "date": "Oct 21, 2013",
+      "type": "image",
+      "url": "http://www.diffbot.com/images/image_atopmountain_sample.png",
+      "xpath": "/HTML/BODY/DIV[@class='main']/DIV[@id='secondaryImage']/A/IMG"
     }
   ]
 }

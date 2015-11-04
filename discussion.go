@@ -4,21 +4,21 @@ import "encoding/json"
 
 // See https://www.diffbot.com/dev/docs/discussion/#response
 type Discussion struct {
-	Type          string           `json:"type"`
-	PageUrl       string           `json:"pageUrl"`
-	ResolvedUrl   string           `json:"resolvedPageUrl,omitempty"`
-	Title         string           `json:"title"`
-	NumPosts      int              `json:"numPosts"`
-	Posts         []discussionPost `json:"posts"`
-	Tags          []articleTag     `json:"tags"`
-	Participants  int              `json:"participants"`
-	NumPages      int              `json:"numPages"`
-	NextPage      string           `json:"nextPage"`
-	NextPages     []string         `json:"nextPages"`
-	Provider      string           `json:"provider,omitempty"`
-	HumanLanguage string           `json:"humanLanguage,omitempty"`
-	RssUrl        string           `json:"rssUrl,omitempty"`
-	DiffbotUri    string           `json:"diffbotUri"`
+	Type            string            `json:"type"`
+	PageUrl         string            `json:"pageUrl"`
+	ResolvedPageUrl string            `json:"resolvedPageUrl,omitempty"`
+	Title           string            `json:"title"`
+	NumPosts        int               `json:"numPosts"`
+	Posts           []*discussionPost `json:"posts"`
+	Tags            []*articleTag     `json:"tags"`
+	Participants    int               `json:"participants"`
+	NumPages        int               `json:"numPages"`
+	NextPage        string            `json:"nextPage"`
+	NextPages       []string          `json:"nextPages"`
+	Provider        string            `json:"provider,omitempty"`
+	HumanLanguage   string            `json:"humanLanguage,omitempty"`
+	RssUrl          string            `json:"rssUrl,omitempty"`
+	DiffbotUri      string            `json:"diffbotUri"`
 
 	// optional fields
 	Sentiment   float64                `json:"sentiment,omitempty"`
@@ -30,20 +30,20 @@ type Discussion struct {
 
 // type of Discussion.Posts[?]
 type discussionPost struct {
-	Type          string       `json:"type"`
-	Id            int          `json:"id"`
-	ParentId      int          `json:"parentId,omitempty"`
-	Text          string       `json:"text"`
-	Html          string       `json:"html"`
-	Tags          []articleTag `json:"tags,omitempty"`
-	Votes         int          `json:"votes,omitempty"`
-	HumanLanguage string       `json:"humanLanguage"`
-	Images        []Image      `json:"image,omitempty"`
-	Date          string       `json:"date"`
-	Author        string       `json:"author"`
-	AuthorUrl     string       `json:"authorUrl,omitempty"`
-	PageUrl       string       `json:"pageUrl"`
-	DiffbotUri    string       `json:"diffbotUri"`
+	Type          string        `json:"type"`
+	Id            int           `json:"id"`
+	ParentId      int           `json:"parentId,omitempty"`
+	Text          string        `json:"text"`
+	Html          string        `json:"html"`
+	Tags          []*articleTag `json:"tags,omitempty"`
+	Votes         int           `json:"votes,omitempty"`
+	HumanLanguage string        `json:"humanLanguage"`
+	Images        []*Image      `json:"image,omitempty"`
+	Date          string        `json:"date"`
+	Author        string        `json:"author"`
+	AuthorUrl     string        `json:"authorUrl,omitempty"`
+	PageUrl       string        `json:"pageUrl"`
+	DiffbotUri    string        `json:"diffbotUri"`
 }
 
 // The Discussion API automatically structures and extracts entire threads or

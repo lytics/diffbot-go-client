@@ -4,24 +4,24 @@ import "encoding/json"
 
 // See https://www.diffbot.com/dev/docs/video/
 type Video struct {
-	Type          string           `json:"type"`
-	PageUrl       string           `json:"pageUrl"`
-	ResolvedUrl   string           `json:"resolvedPageUrl"`
-	Title         string           `json:"title,omitempty"`
-	Text          string           `json:"text,omitempty"`
-	Url           string           `json:"url,omitempty"`
-	Html          string           `json:"html,omitempty"`
-	EmbedUrl      string           `json:"embedUrl,omitempty"`
-	Author        string           `json:"author,omitempty"`
-	Date          string           `json:"date"`
-	Duration      int              `json:"duration"`
-	ViewCount     int              `json:"viewCount,omitempty"`
-	NaturalHeight int              `json:"naturalHeight,omitempty"`
-	NaturalWidth  int              `json:"naturalWidth,omitempty"`
-	Images        []videoImageType `json:"images,omitempty"`
-	Mime          string           `json:"mime`
-	HumanLanguage string           `json:"humanLanguage,omitempty"`
-	DiffbotUri    string           `json:"diffbotUri"`
+	Type            string            `json:"type"`
+	PageUrl         string            `json:"pageUrl"`
+	ResolvedPageUrl string            `json:"resolvedPageUrl"`
+	Title           string            `json:"title,omitempty"`
+	Text            string            `json:"text,omitempty"`
+	Url             string            `json:"url,omitempty"`
+	Html            string            `json:"html,omitempty"`
+	EmbedUrl        string            `json:"embedUrl,omitempty"`
+	Author          string            `json:"author,omitempty"`
+	Date            string            `json:"date"`
+	Duration        int               `json:"duration"`
+	ViewCount       int               `json:"viewCount,omitempty"`
+	NaturalHeight   int               `json:"naturalHeight,omitempty"`
+	NaturalWidth    int               `json:"naturalWidth,omitempty"`
+	Images          []*videoImageType `json:"images,omitempty"`
+	Mime            string            `json:"mime`
+	HumanLanguage   string            `json:"humanLanguage,omitempty"`
+	DiffbotUri      string            `json:"diffbotUri"`
 
 	// optional fields
 	Breadcrumb  []string               `json:"breadcrumb,omitempty"`

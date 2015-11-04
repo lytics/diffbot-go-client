@@ -15,15 +15,14 @@ const (
 	DefaultServer = `http://api.diffbot.com/v3`
 )
 
-type Response struct {
-	Request Request       `json:"request"`
-	Object  []interface{} `json:"object"`
-}
-
 type Request struct {
-	PageUrl string `json:"pageUrl"`
-	API     string `json:"api"`
-	Version int    `json:"version"`
+	PageUrl         string   `json:"pageUrl"`
+	ResolvedPageUrl string   `json:"resolvedPageUrl,omitempty"`
+	API             string   `json:"api"`
+	Options         []string `json:"options"`
+	Fallback        string   `json:"fallback,omitempty"`
+	Fields          string   `json:"fields,omitempty"`
+	Version         int      `json:"version"`
 }
 
 // Diffbot uses computer vision, natural language processing

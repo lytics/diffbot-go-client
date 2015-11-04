@@ -10,27 +10,27 @@ import (
 
 // See http://diffbot.com/dev/docs/article/
 type Article struct {
-	Type             string             `json:"type"`
-	Title            string             `json:"title"`
-	Text             string             `json:"text"`
-	Html             string             `json:"html"`
-	Date             string             `json:"date"`
-	EstimatedDate    string             `json:"estimatedDate,omitempty"`
-	Author           string             `json:"author"`
-	AuthorUrl        string             `json:"authorUrl,omitempty"`
-	Discussion       Discussion         `json:"discussion"`
-	HumanLanguage    string             `json:"humanLanguage,omitempty"`
-	NumPages         string             `json:"numPages"`
-	NextPages        []string           `json:"nextPages"`
-	SiteName         string             `json:"siteName"`
-	PublisherRegion  string             `json:"publisherRegion,omitempty"`
-	PublisherCountry string             `json:"publisherCountry,omitempty"`
-	PageUrl          string             `json:"pageUrl"`
-	ResolvedUrl      string             `json:"resolvedPageUrl,omitempty"`
-	Tags             []articleTag       `json:"tags,omitempty"`
-	Images           []articleImageType `json:"images"`
-	Video            []articleVideoType `json:"video"`
-	DiffbotUri       string             `json:"diffbotUri"`
+	Type             string              `json:"type"`
+	Title            string              `json:"title"`
+	Text             string              `json:"text"`
+	Html             string              `json:"html"`
+	Date             string              `json:"date"`
+	EstimatedDate    string              `json:"estimatedDate,omitempty"`
+	Author           string              `json:"author"`
+	AuthorUrl        string              `json:"authorUrl,omitempty"`
+	Discussion       *Discussion         `json:"discussion"`
+	HumanLanguage    string              `json:"humanLanguage,omitempty"`
+	NumPages         string              `json:"numPages"`
+	NextPages        []string            `json:"nextPages"`
+	SiteName         string              `json:"siteName"`
+	PublisherRegion  string              `json:"publisherRegion,omitempty"`
+	PublisherCountry string              `json:"publisherCountry,omitempty"`
+	PageUrl          string              `json:"pageUrl"`
+	ResolvedUrl      string              `json:"resolvedPageUrl,omitempty"`
+	Tags             []*articleTag       `json:"tags,omitempty"`
+	Images           []*articleImageType `json:"images"`
+	Videos           []*articleVideoType `json:"videos"`
+	DiffbotUri       string              `json:"diffbotUri"`
 
 	// optional fields
 	Breadcrumb  []string               `json:"breadcrumb,omitempty"`
@@ -46,7 +46,7 @@ type articleTag struct {
 	Score    float64  `json:"score"`
 	RdfTypes []string `json:"rdfTypes,omitempty"`
 	Type     string   `json:"type,omitempty"`
-	URI      string   `json:"uri"`
+	Uri      string   `json:"uri"`
 }
 
 // type of Article.Images[?]
@@ -340,19 +340,24 @@ type articleVideoType struct {
 // curl -H "Content-Type: text/plain" -d 'Now is the time for all good robots to come to the aid of their-- oh never mind, run!' http://api.diffbot.com/v3/article?token=...&fields=tags,text
 //
 
-func ParseArticle(token, url string, opt *Options) (*Article, error) {
+type articleResponse struct {
+	Request *Request   `json:"request"`
+	Objects []*Article `json:"objects"`
+}
+
+func ParseArticle(token, url string, opt *Options) (*articleResponse, error) {
 	body, err := Diffbot("article", token, url, opt)
 	if err != nil {
 		return nil, err
 	}
-	var result Article
+	var result articleResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-func (p *Article) String() string {
+func (p *articleResponse) String() string {
 	d, _ := json.Marshal(p)
 	return string(d)
 }
