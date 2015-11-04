@@ -8,67 +8,42 @@ import (
 	"encoding/json"
 )
 
-// Image represents a page image information.
-//
 // See http://diffbot.com/dev/docs/image/
 type Image struct {
-	Title       string                 `json:"title"`
-	NextPage    string                 `json:"nextPage"`
-	AlbumUrl    string                 `json:"albumUrl"`
-	Url         string                 `json:"url"`
-	ResolvedUrl string                 `json:"resolved_url"`
-	Meta        map[string]interface{} `json:"meta,omitempty"`        // Returned with fields.
-	QueryString string                 `json:"querystring,omitempty"` // Returned with fields.
-	Links       []string               `json:"links,omitempty"`       // Returned with fields.
-	Images      []struct {
-		Url           string   `json:"url"`
-		AnchorUrl     string   `json:"anchorUrl"`
-		Mime          string   `json:"mime,omitempty"` // Returned with fields.
-		Caption       string   `json:"caption"`
-		AttrAlt       string   `json:"attrAlt,omitempty"`   // Returned with fields.
-		AttrTitle     string   `json:"attrTitle,omitempty"` // Returned with fields.
-		Date          string   `json:"date"`
-		Size          int      `json:"size"`
-		PixelHeight   int      `json:"pixelHeight"`
-		PixelWidth    int      `json:"pixelWidth"`
-		DisplayHeight int      `json:"displayHeight,omitempty"` // Returned with fields.
-		DisplayWidth  int      `json:"displayWidth",omitempty`  // Returned with fields.
-		Meta          []string `json:"meta"`
-		Faces         []string `json:"faces,omitempty"`  // Returned with fields.
-		Ocr           string   `json:"ocr,omitempty"`    // Returned with fields.
-		Colors        string   `json:"colors,omitempty"` // Returned with fields.
-		XPath         string   `json:"xpath"`
-	} `json:"images"`
+	Type            string `json:"type"`
+	Url             string `json:"url"`
+	Title           string `json:"title",omitempty`
+	NaturalHeight   int    `json:"naturalHeight"`
+	NaturalWidth    int    `json:"naturalWidth"`
+	HumanLanguage   string `json:"humanLanguage,omitempty"`
+	AnchorUrl       string `json:"anchorUrl,omitempty"`
+	PageUrl         string `json:"pageUrl,omitempty"`
+	ResolvedPageUrl string `json:"resolvedPageUrl,omitempty"`
+	XPath           string `json:"xpath,omitempty"`
+	DiffbotUri      string `json:"diffbotUri"`
+
+	// optional image fields
+	DisplayHeight int                      `json:"displayHeight,omitempty"`
+	DisplayWidth  int                      `json:"displayWidth,omitempty"`
+	Mentions      []string                 `json:"mentions,omitempty"`
+	Ocr           string                   `json:"ocr,omitempty"`
+	Faces         []map[string]interface{} `json:"faces,omitempty"`
+
+	// optional fields
+	Breadcrumb  []string               `json:"breadcrumb,omitempty"`
+	Links       []string               `json:"links,omitempty"`
+	Meta        map[string]interface{} `json:"meta,omitempty"`
+	QueryString string                 `json:"querystring,omitempty"`
 }
 
-// type of Image.Images[?]
-type imageImageType struct {
-	Url           string   `json:"url"`
-	AnchorUrl     string   `json:"anchorUrl"`
-	Mime          string   `json:"mime,omitempty"` // Returned with fields.
-	Caption       string   `json:"caption"`
-	AttrAlt       string   `json:"attrAlt,omitempty"`   // Returned with fields.
-	AttrTitle     string   `json:"attrTitle,omitempty"` // Returned with fields.
-	Date          string   `json:"date"`
-	Size          int      `json:"size"`
-	PixelHeight   int      `json:"pixelHeight"`
-	PixelWidth    int      `json:"pixelWidth"`
-	DisplayHeight int      `json:"displayHeight,omitempty"` // Returned with fields.
-	DisplayWidth  int      `json:"displayWidth",omitempty`  // Returned with fields.
-	Meta          []string `json:"meta"`
-	Faces         []string `json:"faces,omitempty"`  // Returned with fields.
-	Ocr           string   `json:"ocr,omitempty"`    // Returned with fields.
-	Colors        string   `json:"colors,omitempty"` // Returned with fields.
-	XPath         string   `json:"xpath"`
-}
-
-// ParseImage parse a web page and returns its primary image(s).
+// The Image API identifies the primary image(s) of a submitted web page and returns
+// comprehensive information and metadata for each image.
 //
 // Request
 //
-// To use the Product API, perform a HTTP GET request on the following endpoint:
+// To use the Image API, perform a HTTP GET request on the following endpoint:
 //
-//	http://api.diffbot.com/v2/product
+//  http://api.diffbot.com/v3/image
 //
 // Provide the following arguments:
 //
@@ -76,160 +51,163 @@ type imageImageType struct {
 //	| ARGUMENT | DESCRIPTION                                                             |
 //	+----------+-------------------------------------------------------------------------+
 //	| token    | Developer token                                                         |
-//	| url      | Product URL to process (URL encoded)                                    |
+//	| url      | Web page URL of the image to process (URL encoded)                      |
 //	+----------+-------------------------------------------------------------------------+
 //	| Optional arguments                                                                 |
 //	+----------+-------------------------------------------------------------------------+
-//	| fields   | Used to control which fields are returned by the API.                   |
-//	|          | See the Response section below.                                         |
-//	| timeout  | Set a value in milliseconds to terminate the response.                  |
-//	|          | By default the Product API has no timeout.                              |
+//	| fields   | Used to specify optional fields to be returned by the Image API. See    |
+//  |          | the Fields section below.                                               |
+//	| timeout  | Sets a value in milliseconds to wait for the retrieval/fetch of content |
+//  |          | from the requested URL. The default timeout for the third-party response|
+//  |          | is 30 seconds (30000).                                                  |
 //	| callback | Use for jsonp requests. Needed for cross-domain ajax.                   |
 //	+----------+-------------------------------------------------------------------------+
-//	| Basic authentication                                                               |
-//	+------------------------------------------------------------------------------------+
-//	| To access pages that require a login/password (using basic access authentication), |
-//	| include the username and password in your url parameter,                           |
-//	| e.g.: url=http%3A%2F%2FUSERNAME:PASSWORD@www.diffbot.com                           |
-//	+------------------------------------------------------------------------------------+
+//
+// The fields argument
+// Use the fields argument to return optional fields in the JSON response. The default fields
+// will always be returned. For nested arrays, use parentheses to retrieve specific fields,
+// or * to return all sub-fields.
+//
+// For example, to return meta (in addition to the default fields), your &fields argument
+// would be:
+//
+//  &fields=meta
 //
 // Response
 //
-// The Image API returns basic info about the page submitted,
-// and its primary image(s) in the images array.
+// The Image API returns data in JSON format.
 //
-//Use the fields query parameter to limit or expand which fields are
-// returned in the JSON response. To control the fields returned for images,
-// your desired fields should be contained within the 'images' parentheses:
+// Each V3 response includes a request object (which returns request-specific metadata), and
+// an objects array, which will include the extracted information for all images on a submitted
+// page.
 //
-//	http://api.diffbot.com/v2/image...&fields=images(mime,pixelWidth)
-//
-// Response fields:
+// Objects in the Image API's objects array will include the following fields:
 //
 //	+---------------+------------------------------------------------------------------------+
 //	| FIELD         | DESCRIPTION                                                            |
 //	+---------------+------------------------------------------------------------------------+
-//	| *             | Returns all fields available.                                          |
-//	| title         | Title of the submitted page. Returned by default.                      |
-//	| nextPage      | Link to next page (if within a gallery or paginated list of images).   |
-//	|               | Returned by default.                                                   |
-//	| albumUrl      | Link to containing album (if image is within an album).                |
-//	|               | Returned by default.                                                   |
-//	| url           | URL submitted. Returned by default.                                    |
-//	| resolved_url  | Returned if the resolving URL is different from the submitted URL      |
-//	|               | (e.g., link shortening services).                                      |
-//	| meta          | Returns the full contents of page meta tags,                           |
-//	|               | including sub-arrays for OpenGraph tags, Twitter Card metadata,        |
-//	|               | schema.org microdata, and -- if available -- oEmbed metadata.          |
-//	|               | Returned with fields.                                                  |
-//	| querystring   | Returns the key/value pairs of the URL querystring, if present.        |
-//	|               | Items without a value will be returned as "true".                      |
-//	|               | Returned with fields.                                                  |
-//	| links         | Returns all links (anchor tag href values) found on the page.          |
-//	|               | Returned with fields.                                                  |
-//	| images        | An array of image(s) contained on the page.                            |
-//	+---------------+------------------------------------------------------------------------+
-//	| For each item in the images array:                                                     |
-//	+---------------+------------------------------------------------------------------------+
-//	| url           | Direct link to image file. Returned by default.                        |
-//	| anchorUrl     | If the image is wrapped by an anchor a tag, the anchor location        |
-//	|               | as defined by the href attribute. Returned by default.                 |
-//	| mime          | MIME type, if available, as specified by "Content-Type" of the image.  |
-//	|               | Returned with fields.                                                  |
-//	| caption       | The best caption for this image. Returned by default.                  |
-//	| attrAlt       | Contents of the alt attribute, if available within the HTML IMG tag.   |
-//	|               | Returned with fields.                                                  |
-//	| attrTitle     | Contents of the title attribute, if available within the HTML IMG tag. |
-//	|               | Returned with fields.                                                  |
-//	| date          | Date of image upload or creation if available in page metadata.        |
-//	|               | Returned by default.                                                   |
-//	| size          | Size in bytes of image file. Returned by default.                      |
-//	| pixelHeight   | Actual height, in pixels, of image file. Returned by default.          |
-//	| pixelWidth    | Actual width, in pixels, of image file. Returned by default.           |
-//	| displayHeight | Height of image as rendered on page, if different from actual          |
-//	|               | (pixel) height. Returned with fields.                                  |
-//	| displayWidth  | Width of image as rendered on page, if different from actual           |
-//	|               | (pixel) width. Returned with fields.                                   |
-//	| meta          | Comma-separated list of image-embedded metadata                        |
-//	|               | (e.g., EXIF, XMP, ICC Profile), if available within the image file.    |
-//	|               | Returned with fields.                                                  |
-//	| faces         | The x, y, height, width of coordinates of human faces.                 |
-//	|               | Null, if no faces were found. Returned with fields.                    |
+//  | type          | Type of object (always image)                                          |
+//	| url           | Direct link to image file.                                             |
+//	| title         | Title or caption of the image, if available.                           |
+//  | naturalHeight | Raw image height, in pixels.                                           |
+//  | naturalWidth  | Raw image width, in pixels.                                            |
+//  | humanLanguage | Returns the (spoken/human) language of the submitted page, using       |
+//  |               | two-letter ISO 639-1 nomenclature.                                     |
+//  | anchorUrl     | If the image is hyperlinked, returns the destination URL.              |
+//  | pageUrl       | URL of submitted page / page from which the image is extracted.        |
+//	|resolvedPageUrl| Returned if the pageUrl redirects to another URL.                      |
+//	| xpath         | XPath expression identifying the image node.                           |
+//  | diffbotUri    | Unique object ID. The diffbotUri is generated from the values of       |
+//  |               | various Image fields and uniquely identifies the object. This can be   |
+//  |               | used for deduplication.                                                |
+//  +----------------------------------------------------------------------------------------+
+//  | Optional fields, available using fields= argument                                      |
+//  +----------------------------------------------------------------------------------------+
+//	| displayHeight | Height of image as presented in the browser (and as sized via          |
+//  |               | browser/CSS, if resized).                                              |
+//	| displayWidth  | Width of image as presented in the browser (and as sized via           |
+//  |               | browser/CSS, if resized).                                              |
+//	| links         | Returns a top-level object (links) containing all hyperlinks found on  |
+//  |               | the page.                                                              |
+//	| meta          | Comma-separated list of image-embedded metadata (e.g., EXIF, XMP, ICC  |
+//  |               | Profile), if available within the image file.                          |
+//	| querystring   | Returns any key/value pairs present in the URL querystring. Items      |
+//  |               | without a discrete value will be returned as true.                     |
+//  | breadcrumb    | Returns a top-level array (breadcrumb) of URLs and link text from page |
+//  |               | breadcrumbs.                                                           |
+//  +----------------------------------------------------------------------------------------+
+//  | The following fields are in an early beta stage:                                       |
+//  +----------------------------------------------------------------------------------------+
+//  | mentions      | Array of articles upon which the same or similar image may be found.   |
 //	| ocr           | If text is identified within the image, we will attempt to recognize   |
-//	|               | the text string. Returned with fields.                                 |
-//	| colors        | Returns an array of hex values of the dominant colors                  |
-//	|               | within the image. Returned with fields.                                |
-//	| xpath         | XPath expression identifying the node containing the image.            |
-//	|               | Returned by default.                                                   |
+//  |               | the text string.                                                       |
+//	| faces         | The x, y, height and width of coordinates of human faces. Returns null |
+//  |               | if no faces are found.                                                 |
 //	+---------------+------------------------------------------------------------------------+
 //
 // Example Response
 //
 // This is a simple response:
 //
-//	{
-//	  "title": "The National Flower - Rose",
-//	  "type": "image",
-//	  "url": "http://www.statesymbolsusa.org/National_Symbols/National_flower.html",
-//	  "images": [
-//	    {
-//	      "attrAlt": "Red rose in full bloom - click to see state flowers",
-//	      "height": 371,
-//	      "width": 300,
-//	      "displayWidth": 300,
-//	      "meta": [
-//	          "[Jpeg] Compression Type - Baseline",
-//	          "[Jpeg] Data Precision - 8 bits",
-//	          "[Jpeg] Image Height - 371 pixels",
-//	          "[Jpeg] Image Width - 300 pixels",
-//	          "[Jpeg] Number of Components - 3",
-//	          "[Jpeg] Component 1 - Y component: Quantization table 0, Sampling factors 2 horiz/2 vert",
-//	          "[Jpeg] Component 2 - Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-//	          "[Jpeg] Component 3 - Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-//	          "[Jfif] Version - 1.2",
-//	          "[Jfif] Resolution Units - none",
-//	          "[Jfif] X Resolution - 100 dots",
-//	          "[Jfif] Y Resolution - 100 dots",
-//	          "[Adobe Jpeg] DCT Encode Version - 1",
-//	          "[Adobe Jpeg] Flags 0 - 192",
-//	          "[Adobe Jpeg] Flags 1 - 0",
-//	          "[Adobe Jpeg] Color Transform - YCbCr"
-//	          ],
-//	      "url": "http://www.statesymbolsusa.org/IMAGES/rose_usda-web.jpg",
-//	      "size": 12328,
-//	      "displayHeight": 371,
-//	      "xpath": "/HTML[1]/BODY[1]/DIV[1]/TABLE[3]/TBODY[1]/TR[2]/..."
-//	    },
-//	    {
-//	      "attrAlt": "Yellow rose - click to see state flowers",
-//	      "pixelHeight": 304,
-//	      "pixelWidth": 380,
-//	      "displayWidth": 380,
-//	      "meta": [
-//	          "[Jpeg] Compression Type - Baseline",
-//	          "[Jpeg] Data Precision - 8 bits",
-//	          "[Jpeg] Image Height - 304 pixels",
-//	          "[Jpeg] Image Width - 380 pixels",
-//	          "[Jpeg] Number of Components - 3",
-//	          "[Jpeg] Component 1 - Y component: Quantization table 0, Sampling factors 2 horiz/2 vert",
-//	          "[Jpeg] Component 2 - Cb component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-//	          "[Jpeg] Component 3 - Cr component: Quantization table 1, Sampling factors 1 horiz/1 vert",
-//	          "[Jfif] Version - 1.2",
-//	          "[Jfif] Resolution Units - none",
-//	          "[Jfif] X Resolution - 100 dots",
-//	          "[Jfif] Y Resolution - 100 dots",
-//	          "[Adobe Jpeg] DCT Encode Version - 1",
-//	          "[Adobe Jpeg] Flags 0 - 192",
-//	          "[Adobe Jpeg] Flags 1 - 0",
-//	          "[Adobe Jpeg] Color Transform - YCbCr"
-//	          ],
-//	      "url": "http://www.statesymbolsusa.org/IMAGES/rose_yellow-380.jpg",
-//	      "size": 12142,
-//	      "displayHeight": 304,
-//	      "xpath": "/HTML[1]/BODY[1]/DIV[1]/TABLE[3]/TBODY[1]/TR[2]/..."
-//	    }
-//	  ]
-//	}
+//  {
+//    "request": {
+//      "pageUrl": "http://www.diffbot.com/products",
+//      "api": "image",
+//      "options": [],
+//      "fields": "",
+//      "version": 3
+//    },
+//    {
+//    "objects": [
+//      {
+//        "title": "Diffy, climbing a mountain",
+//        "naturalHeight": 1158,
+//        "diffbotUri": "image|3|-1897071612",
+//        "pageUrl": "http://www.diffbot.com/products",
+//        "humanLanguage": "en",
+//        "naturalWidth": 950,
+//        "date": "Oct 19, 2013",
+//        "type": "image",
+//        "url": "http://www.diffbot.com/images/image_diffy_sample.png",
+//        "xpath": "/HTML/BODY/DIV[@class='main']/DIV[@id='primaryImage']/IMG"
+//      },
+//      {
+//        "title": "Diffy atop said mountain",
+//        "naturalHeight": 1120,
+//        "diffbotUri": "image|3|-1221792290",
+//        "pageUrl": "http://www.diffbot.com/products",
+//        "humanLanguage": "en",
+//        "naturalWidth": 920,
+//        "anchorUrl": "http://www.diffbot.com",
+//        "date": "Oct 21, 2013",
+//        "type": "image",
+//        "url": "http://www.diffbot.com/images/image_atopmountain_sample.png",
+//        "xpath": "/HTML/BODY/DIV[@class='main']/DIV[@id='secondaryImage']/A/IMG"
+//      },
+//    ],
+//  }
+//
+// Authentication
+//
+// You can supply Diffbot with basic authentication credentials or custom HTTP headers (see below)
+// to access intranet pages or other sites that require a login.
+//
+// Basic Authentication
+// To access pages that require a login/password (using basic access authentication), include the
+// username and password in your url parameter, e.g.: url=http%3A%2F%2FUSERNAME:PASSWORD@www.diffbot.com.
+//
+// Custom HTTP Headers
+//
+// You can supply Diffbot APIs with custom values for the user-agent, referer, cookie, or accept-language
+// values in the HTTP request. These will be used in place of the Diffbot default values.
+//
+// To provide custom headers, pass in the following values in your own headers when calling the Diffbot API:
+//
+//	+----------------------+-----------------------------------------------------------------------+
+//	| HEADER               | DESCRIPTION                                                           |
+//	+----------------------+-----------------------------------------------------------------------+
+//	| X-Forward-User-Agent | Will be used as Diffbot's User-Agent header when making your request. |
+//	| X-Forward-Referer    | Will be used as Diffbot's Referer header when making your request.    |
+//	| X-Forward-Cookie     | Will be used as Diffbot's Cookie header when making your request.     |
+//  | X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
+//  | Language             | request.                                                              |
+//	+----------------------+-----------------------------------------------------------------------+
+//
+// Posting Content
+//
+// If your content is not publicly available (e.g., behind a firewall), you can POST markup directly to
+// the Image API endpoint for analysis:
+//
+//  http://api.diffbot.com/v3/image?token=...&url=...
+//
+// Please note that the url argument is still required, and will be used to resolve any relative links
+// contained in the markup.
+//
+// Provide the content to analyze as your POST body, and specify the Content-Type header as text/html.
+//
+// HTML Post Sample:
+// curl -H "Content-Type: text/html" -d '<html><body><h2>Diffy the Robot</h2><div><img src="diffy-b.png"></div></body></html>' http://api.diffbot.com/v3/image?token=...&url=http%3A%2F%2Fwww.diffbot.com
+
 func ParseImage(token, url string, opt *Options) (*Image, error) {
 	body, err := Diffbot("image", token, url, opt)
 	if err != nil {
