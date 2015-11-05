@@ -226,24 +226,29 @@ type Classification struct {
 //	+----------------------+-----------------------------------------------------------------------+
 //
 
-type classificationResponse struct {
+type ClassificationResponse struct {
+	// defualt fields
+	HumanLanguage string `json:"humanLanguage"`
+	Title         string `json:"title"`
+	Type          string `json:"type"`
+
 	Request *Request          `json:"request"`
 	Objects []*Classification `json:"objects"`
 }
 
-func ParseClassification(token, url string, opt *Options) (*classificationResponse, error) {
+func ParseClassification(token, url string, opt *Options) (*ClassificationResponse, error) {
 	body, err := Diffbot("analyze", token, url, opt)
 	if err != nil {
 		return nil, err
 	}
-	var result classificationResponse
+	var result ClassificationResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-func (p *classificationResponse) String() string {
+func (p *ClassificationResponse) String() string {
 	d, _ := json.Marshal(p)
 	return string(d)
 }

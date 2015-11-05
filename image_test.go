@@ -11,17 +11,17 @@ import (
 )
 
 func TestImage_type(t *testing.T) {
-	var a imageResponse
+	var a ImageResponse
 	a.Objects = append(a.Objects, &Image{})
 	_ = a
 }
 
 func TestImage_parseJson(t *testing.T) {
-	var result1 imageResponse
+	var result1 ImageResponse
 	if err := json.Unmarshal([]byte(testJsonDataImage), &result1); err != nil {
 		t.Fatal(err)
 	}
-	var result2 imageResponse
+	var result2 ImageResponse
 	if err := json.Unmarshal([]byte(result1.String()), &result2); err != nil {
 		t.Fatal(err)
 	}
@@ -34,7 +34,7 @@ func TestImage_parseJson(t *testing.T) {
 	}
 }
 
-var testGoldenImage = imageResponse{
+var testGoldenImage = ImageResponse{
 	Request: &Request{
 		PageUrl: "http://www.diffbot.com/products",
 		Options: []string{},

@@ -11,18 +11,18 @@ import (
 )
 
 func TestProduct_type(t *testing.T) {
-	var a productResponse
+	var a ProductResponse
 	a.Objects = append(a.Objects, &Product{})
 	a.Objects[0].Images = append(a.Objects[0].Images, &productImageType{})
 	_ = a
 }
 
 func TestProduct_parseJson(t *testing.T) {
-	var result1 productResponse
+	var result1 ProductResponse
 	if err := json.Unmarshal([]byte(testJsonDataProduct), &result1); err != nil {
 		t.Fatal(err)
 	}
-	var result2 productResponse
+	var result2 ProductResponse
 	if err := json.Unmarshal([]byte(result1.String()), &result2); err != nil {
 		t.Fatal(err)
 	}
@@ -35,7 +35,7 @@ func TestProduct_parseJson(t *testing.T) {
 	}
 }
 
-var testGoldenProduct = productResponse{
+var testGoldenProduct = ProductResponse{
 	Request: &Request{
 		PageUrl: "http://store.livrada.com/collections/all/products/before-i-go-to-sleep",
 		Options: []string{},

@@ -340,24 +340,24 @@ type articleVideoType struct {
 // curl -H "Content-Type: text/plain" -d 'Now is the time for all good robots to come to the aid of their-- oh never mind, run!' http://api.diffbot.com/v3/article?token=...&fields=tags,text
 //
 
-type articleResponse struct {
+type ArticleResponse struct {
 	Request *Request   `json:"request"`
 	Objects []*Article `json:"objects"`
 }
 
-func ParseArticle(token, url string, opt *Options) (*articleResponse, error) {
+func ParseArticle(token, url string, opt *Options) (*ArticleResponse, error) {
 	body, err := Diffbot("article", token, url, opt)
 	if err != nil {
 		return nil, err
 	}
-	var result articleResponse
+	var result ArticleResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-func (p *articleResponse) String() string {
+func (p *ArticleResponse) String() string {
 	d, _ := json.Marshal(p)
 	return string(d)
 }

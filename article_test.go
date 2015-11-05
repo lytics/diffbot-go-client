@@ -11,7 +11,7 @@ import (
 )
 
 func TestArticle_type(t *testing.T) {
-	a := articleResponse{
+	a := ArticleResponse{
 		Objects: []*Article{&Article{}},
 	}
 	a.Objects[0].Images = append(a.Objects[0].Images, &articleImageType{})
@@ -20,11 +20,11 @@ func TestArticle_type(t *testing.T) {
 }
 
 func TestArticle_parseJson(t *testing.T) {
-	var result1 articleResponse
+	var result1 ArticleResponse
 	if err := json.Unmarshal([]byte(testJsonDataArticle), &result1); err != nil {
 		t.Fatal(err)
 	}
-	var result2 articleResponse
+	var result2 ArticleResponse
 	if err := json.Unmarshal([]byte(result1.String()), &result2); err != nil {
 		t.Fatal(err)
 	}
@@ -38,7 +38,7 @@ func TestArticle_parseJson(t *testing.T) {
 }
 
 var (
-	testArticleValue = articleResponse{
+	testArticleValue = ArticleResponse{
 		Request: &Request{
 			PageUrl: "http://blog.diffbot.com/diffbots-new-product-api-teaches-robots-to-shop-online",
 			API:     "article",

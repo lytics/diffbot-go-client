@@ -11,16 +11,16 @@ import (
 )
 
 func TestClassification_type(t *testing.T) {
-	var a classificationResponse
+	var a ClassificationResponse
 	_ = a
 }
 
 func TestClassification_parseJson(t *testing.T) {
-	var result1 classificationResponse
+	var result1 ClassificationResponse
 	if err := json.Unmarshal([]byte(testJsonDataClassification), &result1); err != nil {
 		t.Fatal(err)
 	}
-	var result2 classificationResponse
+	var result2 ClassificationResponse
 	if err := json.Unmarshal([]byte(result1.String()), &result2); err != nil {
 		t.Fatal(err)
 	}
@@ -46,6 +46,9 @@ func TestClassification_parseJson(t *testing.T) {
 
 const testJsonDataClassification = `
 {
+  "title": "Andre Walker Oprah Hairstylist Product Line",
+  "type": "article",
+  "humanLanguage": "en",
   "request": {
     "pageUrl": "http://tcrn.ch/Jw7ZKw",
     "resolvedPageUrl": "http://techcrunch.com/2012/05/31/diffbot-raises-2-million-seed-round-for-web-content-extraction-technology/",

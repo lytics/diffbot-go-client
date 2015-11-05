@@ -300,24 +300,24 @@ type productImageType struct {
 //
 // curl -H "Content-Type: text/html" -d '<html><head><title>Something to Buy</title></head><body><h2>A Pair of Jeans</h2><div>Price: $31.99</div></body></html>' http://api.diffbot.com/v3/product?token=...&url=http%3A%2F%2Fstore.diffbot.com
 
-type productResponse struct {
+type ProductResponse struct {
 	Request *Request   `json:"request"`
 	Objects []*Product `json:"objects"`
 }
 
-func ParseProduct(token, url string, opt *Options) (*productResponse, error) {
+func ParseProduct(token, url string, opt *Options) (*ProductResponse, error) {
 	body, err := Diffbot("product", token, url, opt)
 	if err != nil {
 		return nil, err
 	}
-	var result productResponse
+	var result ProductResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-func (p *productResponse) String() string {
+func (p *ProductResponse) String() string {
 	d, _ := json.Marshal(p)
 	return string(d)
 }

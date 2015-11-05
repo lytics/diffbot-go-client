@@ -19,6 +19,7 @@ type Options struct {
 	Timeout                time.Duration
 	Callback               string
 	FrontpageAll           string
+	Discussion             bool // discussion defaults to false
 	ClassifierMode         string
 	ClassifierStats        string
 	BulkNotifyEmail        string
@@ -61,6 +62,9 @@ func (p *Options) MethodParamString(method string) string {
 		if p.Callback != "" {
 			s = append(s, ("&callback=" + url.QueryEscape(p.Callback))...)
 		}
+		if !p.Discussion {
+			s = append(s, ("&discussion=false")...)
+		}
 		return string(s)
 
 	case "frontpage":
@@ -84,6 +88,9 @@ func (p *Options) MethodParamString(method string) string {
 		}
 		if p.ClassifierStats != "" {
 			s = append(s, ("&stats=" + p.ClassifierStats)...)
+		}
+		if !p.Discussion {
+			s = append(s, ("&discussion=false")...)
 		}
 		return string(s)
 

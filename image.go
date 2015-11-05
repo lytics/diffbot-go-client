@@ -208,24 +208,24 @@ type Image struct {
 // HTML Post Sample:
 // curl -H "Content-Type: text/html" -d '<html><body><h2>Diffy the Robot</h2><div><img src="diffy-b.png"></div></body></html>' http://api.diffbot.com/v3/image?token=...&url=http%3A%2F%2Fwww.diffbot.com
 
-type imageResponse struct {
+type ImageResponse struct {
 	Request *Request `json:"request"`
 	Objects []*Image `json:"objects"`
 }
 
-func ParseImage(token, url string, opt *Options) (*imageResponse, error) {
+func ParseImage(token, url string, opt *Options) (*ImageResponse, error) {
 	body, err := Diffbot("image", token, url, opt)
 	if err != nil {
 		return nil, err
 	}
-	var result imageResponse
+	var result ImageResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-func (p *imageResponse) String() string {
+func (p *ImageResponse) String() string {
 	d, _ := json.Marshal(p)
 	return string(d)
 }
