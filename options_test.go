@@ -41,7 +41,7 @@ var testOptionsList = []struct {
 			Timeout:  time.Second * 5,
 			Callback: "abc",
 		},
-		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc",
+		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc&discussion=false",
 	},
 	{
 		method: "image",
@@ -50,7 +50,7 @@ var testOptionsList = []struct {
 			Timeout:  time.Second * 5,
 			Callback: "abc",
 		},
-		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc",
+		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc&discussion=false",
 	},
 	{
 		method: "product",
@@ -59,7 +59,7 @@ var testOptionsList = []struct {
 			Timeout:  time.Second * 5,
 			Callback: "abc",
 		},
-		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc",
+		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc&discussion=false",
 	},
 
 	// case "frontpage":
@@ -85,7 +85,7 @@ var testOptionsList = []struct {
 			ClassifierMode:  "frontpage",
 			ClassifierStats: "abc",
 		},
-		str: "&mode=frontpage&fields=meta,querystring,images(*)&stats=abc",
+		str: "&mode=frontpage&fields=meta,querystring,images(*)&stats=abc&discussion=false",
 	},
 
 	// case "bulk":

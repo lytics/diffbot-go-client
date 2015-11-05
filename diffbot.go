@@ -49,27 +49,27 @@ func DiffbotServer(server, method, token, url string, opt *Options) (body []byte
 	defer resp.Body.Close()
 	body, err = ioutil.ReadAll(resp.Body)
 
-	if resp.StatusCode != http.StatusOK {
-		if len(body) != 0 {
-			var apiError Error
-			if err = apiError.ParseJson(string(body)); err != nil {
-				err = &Error{
-					ErrCode:    resp.StatusCode,
-					ErrMessage: string(body),
-				}
-				return
-			} else {
+	if len(body) != 0 {
+		var apiError Error
+		if err = apiError.ParseJson(string(body)); err != nil {
+			err = &Error{
+				ErrCode:    resp.StatusCode,
+				ErrMessage: string(body),
+			}
+		} else {
+			if apiError.ErrCode != 0 {
 				err = &apiError
 				return
 			}
-		} else {
-			err = &Error{
-				ErrCode:    resp.StatusCode,
-				ErrMessage: resp.Status,
-			}
-			return
 		}
+	} else {
+		err = &Error{
+			ErrCode:    resp.StatusCode,
+			ErrMessage: resp.Status,
+		}
+		return
 	}
+
 	return
 }
 
