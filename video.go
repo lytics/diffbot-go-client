@@ -1,6 +1,9 @@
 package diffbot
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 // See https://www.diffbot.com/dev/docs/video/
 type Video struct {
@@ -194,8 +197,8 @@ type videoImageType struct {
 //
 // Provide the content to analyze as your POST body, and specify the Content-Type header as text/html.
 
-func ParseVideo(token, url string, opt *Options) (*Video, error) {
-	body, err := Diffbot("video", token, url, opt)
+func ParseVideo(client *http.Client, token, url string, opt *Options) (*Video, error) {
+	body, err := Diffbot(client, "video", token, url, opt)
 	if err != nil {
 		return nil, err
 	}

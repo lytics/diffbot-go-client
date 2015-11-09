@@ -9,8 +9,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net/http"
 
-	"github.com/diffbot/diffbot-go-client"
+	"github.com/allisonmorgan/diffbot-go-client"
 )
 
 var (
@@ -42,7 +43,7 @@ func main() {
 
 func callArticle() {
 	opt := &diffbot.Options{Fields: "*"}
-	article, err := diffbot.ParseArticle(*token, *url, opt)
+	article, err := diffbot.ParseArticle(http.DefaultClient, *token, *url, opt)
 	if err != nil {
 		if apiErr, ok := err.(*diffbot.Error); ok {
 			// ApiError, e.g. {"error":"Not authorized API token.","errorCode":401}
@@ -55,7 +56,7 @@ func callArticle() {
 
 func callFrontpage() {
 	opt := &diffbot.Options{Fields: "*"}
-	article, err := diffbot.ParseArticle(*token, *url, opt)
+	article, err := diffbot.ParseArticle(http.DefaultClient, *token, *url, opt)
 	if err != nil {
 		if apiErr, ok := err.(*diffbot.Error); ok {
 			// ApiError, e.g. {"error":"Not authorized API token.","errorCode":401}

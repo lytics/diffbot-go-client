@@ -7,6 +7,7 @@ package diffbot
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"strconv"
 )
 
@@ -159,8 +160,8 @@ func (p *FrontpageDML) String() string {
 //
 // See http://diffbot.com/dev/docs/frontpage/.
 //
-func ParseFrontpage(token, url string, opt *Options) (*Frontpage, error) {
-	body, err := Diffbot("frontpage", token, url, opt)
+func ParseFrontpage(client *http.Client, token, url string, opt *Options) (*Frontpage, error) {
+	body, err := Diffbot(client, "frontpage", token, url, opt)
 	if err != nil {
 		return nil, err
 	}

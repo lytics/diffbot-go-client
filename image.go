@@ -6,6 +6,7 @@ package diffbot
 
 import (
 	"encoding/json"
+	"net/http"
 )
 
 // See http://diffbot.com/dev/docs/image/
@@ -213,8 +214,8 @@ type ImageResponse struct {
 	Objects []*Image `json:"objects"`
 }
 
-func ParseImage(token, url string, opt *Options) (*ImageResponse, error) {
-	body, err := Diffbot("image", token, url, opt)
+func ParseImage(client *http.Client, token, url string, opt *Options) (*ImageResponse, error) {
+	body, err := Diffbot(client, "image", token, url, opt)
 	if err != nil {
 		return nil, err
 	}

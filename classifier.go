@@ -6,6 +6,7 @@ package diffbot
 
 import (
 	"encoding/json"
+	"net/http"
 )
 
 // See http://diffbot.com/dev/docs/analyze/
@@ -236,8 +237,8 @@ type ClassificationResponse struct {
 	Objects []*Classification `json:"objects"`
 }
 
-func ParseClassification(token, url string, opt *Options) (*ClassificationResponse, error) {
-	body, err := Diffbot("analyze", token, url, opt)
+func ParseClassification(client *http.Client, token, url string, opt *Options) (*ClassificationResponse, error) {
+	body, err := Diffbot(client, "analyze", token, url, opt)
 	if err != nil {
 		return nil, err
 	}

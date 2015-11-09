@@ -6,6 +6,7 @@ package diffbot
 
 import (
 	"encoding/json"
+	"net/http"
 )
 
 // See http://www.diffbot.com/dev/docs/product/
@@ -305,8 +306,8 @@ type ProductResponse struct {
 	Objects []*Product `json:"objects"`
 }
 
-func ParseProduct(token, url string, opt *Options) (*ProductResponse, error) {
-	body, err := Diffbot("product", token, url, opt)
+func ParseProduct(client *http.Client, token, url string, opt *Options) (*ProductResponse, error) {
+	body, err := Diffbot(client, "product", token, url, opt)
 	if err != nil {
 		return nil, err
 	}

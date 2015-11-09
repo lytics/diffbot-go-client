@@ -28,12 +28,12 @@ type Request struct {
 // Diffbot uses computer vision, natural language processing
 // and machine learning to automatically recognize
 // and structure specific page-types.
-func Diffbot(method, token, url string, opt *Options) (body []byte, err error) {
-	return DiffbotServer(DefaultServer, method, token, url, opt)
+func Diffbot(client *http.Client, method, token, url string, opt *Options) (body []byte, err error) {
+	return DiffbotServer(client, DefaultServer, method, token, url, opt)
 }
 
 // DiffbotServer like Diffbot function, but support custom server.
-func DiffbotServer(server, method, token, url string, opt *Options) (body []byte, err error) {
+func DiffbotServer(client *http.Client, server, method, token, url string, opt *Options) (body []byte, err error) {
 	req, err := http.NewRequest("GET", makeRequestUrl(server, method, token, url, opt), nil)
 	if err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func DiffbotServer(server, method, token, url string, opt *Options) (body []byte
 	if opt != nil && opt.CustomHeader != nil {
 		req.Header = opt.CustomHeader
 	}
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return
 	}

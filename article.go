@@ -6,6 +6,7 @@ package diffbot
 
 import (
 	"encoding/json"
+	"net/http"
 )
 
 // See http://diffbot.com/dev/docs/article/
@@ -345,8 +346,8 @@ type ArticleResponse struct {
 	Objects []*Article `json:"objects"`
 }
 
-func ParseArticle(token, url string, opt *Options) (*ArticleResponse, error) {
-	body, err := Diffbot("article", token, url, opt)
+func ParseArticle(client *http.Client, token, url string, opt *Options) (*ArticleResponse, error) {
+	body, err := Diffbot(client, "article", token, url, opt)
 	if err != nil {
 		return nil, err
 	}
