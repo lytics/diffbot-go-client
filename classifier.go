@@ -6,7 +6,6 @@ package diffbot
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -248,7 +247,6 @@ func ParseClassification(client *http.Client, token, url string, opt *Options) (
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("%v\n", string(body))
 	var result ClassificationResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err
