@@ -6,6 +6,7 @@ package diffbot
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -32,7 +33,7 @@ type Classification struct {
 	NaturalWidth    int                 `json:"naturalWidth,omitempty"`
 
 	// optional fields
-	Breadcrumb  []string               `json:"breadcrumb,omitempty"`
+	Breadcrumb  []*breadcrumb          `json:"breadcrumb,omitempty"`
 	Links       []string               `json:"links,omitempty"`
 	Meta        map[string]interface{} `json:"meta,omitempty"`
 	QueryString string                 `json:"querystring,omitempty"`
@@ -91,6 +92,11 @@ type Classification struct {
 	Duration  int    `json:"duration"`
 	ViewCount int    `json:"viewCount,omitempty"`
 	Mime      string `json:"mime`
+}
+
+type breadcrumb struct {
+	Link string `json:"link"`
+	Name string `json:"name"`
 }
 
 // The Diffbot Analyze API visually analyzes a web page, identifies its "page-type," and determines which
@@ -242,6 +248,7 @@ func ParseClassification(client *http.Client, token, url string, opt *Options) (
 	if err != nil {
 		return nil, err
 	}
+	fmt.Printf("%v\n", string(body))
 	var result ClassificationResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err

@@ -31,7 +31,7 @@ type Image struct {
 	Faces         []map[string]interface{} `json:"faces,omitempty"`
 
 	// optional fields
-	Breadcrumb  []string               `json:"breadcrumb,omitempty"`
+	Breadcrumb  []*breadcrumb          `json:"breadcrumb,omitempty"`
 	Links       []string               `json:"links,omitempty"`
 	Meta        map[string]interface{} `json:"meta,omitempty"`
 	QueryString string                 `json:"querystring,omitempty"`

@@ -28,7 +28,7 @@ type Discussion struct {
 	Links       []string               `json:"links,omitempty"`
 	Meta        map[string]interface{} `json:"meta,omitempty"`
 	QueryString string                 `json:"querystring,omitempty"`
-	Breadcrumb  []string               `json:"breadcrumb,omitempty"`
+	Breadcrumb  []*breadcrumb          `json:"breadcrumb,omitempty"`
 }
 
 // type of Discussion.Posts[?]
