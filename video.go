@@ -22,7 +22,7 @@ type Video struct {
 	NaturalHeight   int               `json:"naturalHeight,omitempty"`
 	NaturalWidth    int               `json:"naturalWidth,omitempty"`
 	Images          []*videoImageType `json:"images,omitempty"`
-	Mime            string            `json:"mime`
+	Mime            string            `json:"mime"`
 	HumanLanguage   string            `json:"humanLanguage,omitempty"`
 	DiffbotUri      string            `json:"diffbotUri"`
 
@@ -34,7 +34,7 @@ type Video struct {
 }
 
 type videoImageType struct {
-	Url   string `json:"url`
+	Url   string `json:"url"`
 	Title string `json:"title,omitempty"`
 }
 
@@ -197,19 +197,24 @@ type videoImageType struct {
 //
 // Provide the content to analyze as your POST body, and specify the Content-Type header as text/html.
 
-func ParseVideo(client *http.Client, token, url string, opt *Options) (*Video, error) {
+type VideoResponse struct {
+	Request *Request `json:"request"`
+	Objects []*Video `json:"objects"`
+}
+
+func ParseVideo(client *http.Client, token, url string, opt *Options) (*VideoResponse, error) {
 	body, err := Diffbot(client, "video", token, url, opt)
 	if err != nil {
 		return nil, err
 	}
-	var result Video
+	var result VideoResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
-func (p *Video) String() string {
+func (p *VideoResponse) String() string {
 	d, _ := json.Marshal(p)
 	return string(d)
 }

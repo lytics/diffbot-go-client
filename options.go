@@ -15,30 +15,39 @@ import (
 //
 // See http://diffbot.com/products/automatic/
 type Options struct {
-	Fields                 string
-	Timeout                time.Duration
-	Callback               string
-	FrontpageAll           string
-	Discussion             bool // discussion defaults to false
-	ClassifierMode         string
-	ClassifierStats        string
-	BulkNotifyEmail        string
-	BulkNotifyWebHook      string
-	BulkRepeat             string
-	BulkMaxRounds          string
-	BulkPageProcessPattern string
-	CrawlMaxToCrawl        string
-	CrawlMaxToProcess      string
-	CrawlRestrictDomain    string
-	CrawlNotifyEmail       string
-	CrawlNotifyWebHook     string
-	CrawlDelay             string
-	CrawlRepeat            string
-	CrawlOnlyProcessIfNew  string
-	CrawlMaxRounds         string
-	BatchMethod            string
-	BatchRelativeUrl       string
-	CustomHeader           http.Header
+	Fields                  string
+	Timeout                 time.Duration
+	Callback                string
+	FrontpageAll            string
+	Discussion              bool // discussion defaults to false
+	ClassifierMode          string
+	ClassifierStats         string
+	BulkNotifyEmail         string
+	BulkNotifyWebHook       string
+	BulkRepeat              string
+	BulkMaxRounds           string
+	BulkPageProcessPattern  string
+	CrawlMaxToCrawl         string
+	CrawlMaxToProcess       string
+	CrawlRestrictDomain     string
+	CrawlNotifyEmail        string
+	CrawlNotifyWebHook      string
+	CrawlDelay              string
+	CrawlRepeat             string
+	CrawlOnlyProcessIfNew   string
+	CrawlMaxRounds          string
+	CrawlUrlPattern         string
+	CrawlUrlRegexp          string
+	CrawlUrlProcessPattern  string
+	CrawlUrlProcessRegexp   string
+	CrawlPageProcessPattern string
+	CrawlMaxHops            string
+	CrawlFormat             string
+	CrawlType               string
+	CrawlNumber             string
+	BatchMethod             string
+	BatchRelativeUrl        string
+	CustomHeader            http.Header
 }
 
 // MethodParamString return string as the url params.
@@ -141,6 +150,37 @@ func (p *Options) MethodParamString(method string) string {
 		}
 		if p.CrawlMaxRounds != "" {
 			s = append(s, ("&maxRounds=" + p.CrawlMaxRounds)...)
+		}
+		if p.CrawlUrlPattern != "" {
+			s = append(s, ("&urlCrawlPattern=" + p.CrawlUrlPattern)...)
+		}
+		if p.CrawlUrlRegexp != "" {
+			s = append(s, ("&urlCrawlRegEx=" + p.CrawlUrlRegexp)...)
+		}
+		if p.CrawlUrlProcessPattern != "" {
+			s = append(s, ("&urlProcessPattern=" + p.CrawlUrlProcessPattern)...)
+		}
+		if p.CrawlUrlProcessRegexp != "" {
+			s = append(s, ("&urlProcessRegEx=" + p.CrawlUrlProcessRegexp)...)
+		}
+		if p.CrawlPageProcessPattern != "" {
+			s = append(s, ("&pageProcessPattern=" + p.CrawlPageProcessPattern)...)
+		}
+		if p.CrawlMaxHops != "" {
+			s = append(s, ("&maxHops=" + p.CrawlMaxHops)...)
+		}
+		return string(s)
+
+	case "crawl/data":
+		var s []byte
+		if p.CrawlFormat != "" {
+			s = append(s, ("&format=" + p.CrawlFormat)...)
+		}
+		if p.CrawlType != "" {
+			s = append(s, ("&type=" + p.CrawlType)...)
+		}
+		if p.CrawlNumber != "" {
+			s = append(s, ("&num=" + p.CrawlNumber)...)
 		}
 		return string(s)
 

@@ -13,7 +13,7 @@ import (
 type Image struct {
 	Type            string `json:"type"`
 	Url             string `json:"url"`
-	Title           string `json:"title",omitempty`
+	Title           string `json:"title,omitempty"`
 	NaturalHeight   int    `json:"naturalHeight"`
 	NaturalWidth    int    `json:"naturalWidth"`
 	HumanLanguage   string `json:"humanLanguage,omitempty"`
