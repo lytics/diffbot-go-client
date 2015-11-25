@@ -1,9 +1,10 @@
 package diffbot
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 )
@@ -300,8 +301,10 @@ func CreateCrawl(client *http.Client, token, name string, seeds []string, apiUrl
 	if err != nil {
 		return nil, err
 	}
+	defer body.Close()
+
 	var result CrawlResponse
-	if err := json.Unmarshal(body, &result); err != nil {
+	if err := json.NewDecoder(body).Decode(&result); err != nil {
 		return nil, err
 	}
 	return &result, nil
@@ -331,8 +334,10 @@ func EditCrawl(client *http.Client, token, name, method string) (*CrawlResponse,
 	if err != nil {
 		return nil, err
 	}
+	defer body.Close()
+
 	var result CrawlResponse
-	if err := json.Unmarshal(body, &result); err != nil {
+	if err := json.NewDecoder(body).Decode(&result); err != nil {
 		return nil, err
 	}
 	return &result, nil
@@ -344,8 +349,10 @@ func ViewCrawl(client *http.Client, token, name string, opt *Options) (*CrawlRes
 	if err != nil {
 		return nil, err
 	}
+	defer body.Close()
+
 	var result CrawlResponse
-	if err := json.Unmarshal(body, &result); err != nil {
+	if err := json.NewDecoder(body).Decode(&result); err != nil {
 		return nil, err
 	}
 	return &result, nil
@@ -359,17 +366,41 @@ func (p *CrawlResponse) String() string {
 type CrawlData []*Classification
 
 // retrieves the details of the crawl
-func RetrieveCrawl(client *http.Client, token, name string, opt *Options) (*CrawlData, error) {
+func RetrieveCrawl(client *http.Client, token, name string, opt *Options) ([]*Classification, error) {
 	values := url.Values{}
 	body, err := Crawlbot(client, "crawl/data", token, name, values, opt)
 	if err != nil {
 		return nil, err
 	}
-	var result CrawlData
-	if err := json.Unmarshal(body, &result); err != nil {
-		return nil, err
+	defer body.Close()
+
+	results := make([]*Classification, 0)
+	reader := bufio.NewReader(body)
+
+	i := 0
+	for {
+		// skip the first line
+		b, err := reader.ReadBytes('\n')
+		if i == 0 {
+			b, err = reader.ReadBytes('\n')
+		}
+		if err == io.EOF {
+			return results, nil
+		}
+		if err != nil {
+			break
+		}
+
+		var result *Classification
+		err = json.Unmarshal(b, &result)
+		if err != nil {
+			continue
+		}
+
+		results = append(results, result)
 	}
-	return &result, nil
+
+	return results, err
 }
 
 func (p *CrawlData) String() string {
@@ -377,11 +408,11 @@ func (p *CrawlData) String() string {
 	return string(d)
 }
 
-func Crawlbot(client *http.Client, method, token, name string, params url.Values, opt *Options) (body []byte, err error) {
+func Crawlbot(client *http.Client, method, token, name string, params url.Values, opt *Options) (io.ReadCloser, error) {
 	return CrawlbotServer(client, DefaultServer, method, token, name, params, opt)
 }
 
-func CrawlbotServer(client *http.Client, server, method, token, name string, params url.Values, opt *Options) (body []byte, err error) {
+func CrawlbotServer(client *http.Client, server, method, token, name string, params url.Values, opt *Options) (io.ReadCloser, error) {
 	req, err := http.NewRequest("GET", makeCrawlRequestUrl(server, method, token, name, params, opt), nil)
 	if err != nil {
 		return nil, err
@@ -391,34 +422,10 @@ func CrawlbotServer(client *http.Client, server, method, token, name string, par
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	defer resp.Body.Close()
-	body, err = ioutil.ReadAll(resp.Body)
-
-	if len(body) != 0 {
-		var apiError Error
-		if err = apiError.ParseJson(string(body)); err != nil {
-			err = &Error{
-				ErrCode:    resp.StatusCode,
-				ErrMessage: string(body),
-			}
-		} else {
-			if apiError.ErrCode != 0 {
-				err = &apiError
-				return
-			}
-		}
-	} else {
-		err = &Error{
-			ErrCode:    resp.StatusCode,
-			ErrMessage: resp.Status,
-		}
-		return
-	}
-
-	return
+	return resp.Body, nil
 }
 
 func makeCrawlRequestUrl(server, method, token, name string, params url.Values, opt *Options) string {

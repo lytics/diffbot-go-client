@@ -58,7 +58,7 @@ type articleImageType struct {
 	Width         int    `json:"width"`
 	NaturalHeight int    `json:"naturalHeight"`
 	NaturalWidth  int    `json:"naturalWidth"`
-	Primary       bool   `json:"primary"`
+	Primary       bool   `json:"primary,omitempty"`
 	DiffbotUri    string `json:"diffbotUri"`
 }
 
@@ -67,7 +67,7 @@ type articleVideoType struct {
 	Url           string `json:"url"`
 	NaturalHeight int    `json:"naturalHeight,omitempty"`
 	NaturalWidth  int    `json:"naturalWidth,omitempty"`
-	Primary       bool   `json:"primary"`
+	Primary       bool   `json:"primary,omitempty"`
 	DiffbotUri    string `json:"diffbotUri"`
 }
 

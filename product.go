@@ -78,7 +78,7 @@ type productImageType struct {
 	Title         string `json:"title"`
 	NaturalHeight int    `json:"height"`
 	NaturalWidth  int    `json:"width"`
-	Primary       string `json:"primary"`
+	Primary       bool   `json:"primary,omitempty"`
 	XPath         string `json:"xpath"`
 	DiffbotUri    string `json:"diffbotUri"`
 }
