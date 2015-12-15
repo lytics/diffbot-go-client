@@ -53,162 +53,155 @@ type Options struct {
 // MethodParamString return string as the url params.
 //
 // If the Options is not empty, the return string begin with a '&'.
-func (p *Options) MethodParamString(method string) string {
+func (p *Options) MethodParamString(method string) url.Values {
+	s := url.Values{}
 	if p == nil || method == "" {
-		return ""
+		return s
 	}
 
 	switch method {
 	case "article", "image", "product":
-		var s []byte
 		if p.Fields != "" {
-			s = append(s, ("&fields=" + p.Fields)...)
+			s.Add("fields", p.Fields)
 		}
 		if p.Timeout != 0 {
 			timeout := strconv.FormatInt(int64(p.Timeout/time.Millisecond), 10)
-			s = append(s, ("&timeout=" + timeout)...)
+			s.Add("timeout", timeout)
 		}
 		if p.Callback != "" {
-			s = append(s, ("&callback=" + url.QueryEscape(p.Callback))...)
+			s.Add("callback", url.QueryEscape(p.Callback))
 		}
 		if !p.Discussion {
-			s = append(s, ("&discussion=false")...)
+			s.Add("discussion", "false")
 		}
-		return string(s)
+		return s
 
 	case "frontpage":
-		var s []byte
 		if p.Timeout != 0 {
 			timeout := strconv.FormatInt(int64(p.Timeout/time.Millisecond), 10)
-			s = append(s, ("&timeout=" + timeout)...)
+			s.Add("timeout", timeout)
 		}
 		if p.FrontpageAll != "" {
-			s = append(s, ("&all=" + p.FrontpageAll)...)
+			s.Add("all", p.FrontpageAll)
 		}
-		return string(s)
+		return s
 
 	case "analyze":
-		var s []byte
 		if p.ClassifierMode != "" {
-			s = append(s, ("&mode=" + p.ClassifierMode)...)
+			s.Add("mode", p.ClassifierMode)
 		}
 		if p.Fields != "" {
-			s = append(s, ("&fields=" + p.Fields)...)
+			s.Add("fields", p.Fields)
 		}
 		if p.ClassifierStats != "" {
-			s = append(s, ("&stats=" + p.ClassifierStats)...)
+			s.Add("stats", p.ClassifierStats)
 		}
 		if !p.Discussion {
-			s = append(s, ("&discussion=false")...)
+			s.Add("discussion", "false")
 		}
-		return string(s)
+		return s
 
 	case "bulk":
-		var s []byte
 		if p.BulkNotifyEmail != "" {
-			s = append(s, ("&notifyEmail=" + p.BulkNotifyEmail)...)
+			s.Add("notifyEmail", p.BulkNotifyEmail)
 		}
 		if p.BulkNotifyWebHook != "" {
-			s = append(s, ("&notifyWebHook=" + p.BulkNotifyWebHook)...)
+			s.Add("notifyWebHook", p.BulkNotifyWebHook)
 		}
 		if p.BulkRepeat != "" {
-			s = append(s, ("&repeat=" + p.BulkRepeat)...)
+			s.Add("repeat", p.BulkRepeat)
 		}
 		if p.BulkMaxRounds != "" {
-			s = append(s, ("&maxRounds=" + p.BulkMaxRounds)...)
+			s.Add("maxRounds", p.BulkMaxRounds)
 		}
 		if p.BulkPageProcessPattern != "" {
-			s = append(s, ("&pageProcessPattern=" + p.BulkPageProcessPattern)...)
+			s.Add("pageProcessPattern", p.BulkPageProcessPattern)
 		}
-		return string(s)
+		return s
 
 	case "crawl":
-		var s []byte
 		if p.CrawlMaxToCrawl != "" {
-			s = append(s, ("&maxToCrawl=" + p.CrawlMaxToCrawl)...)
+			s.Add("maxToCrawl", p.CrawlMaxToCrawl)
 		}
 		if p.CrawlMaxToProcess != "" {
-			s = append(s, ("&maxToProcess=" + p.CrawlMaxToProcess)...)
+			s.Add("maxToProcess", p.CrawlMaxToProcess)
 		}
 		if p.CrawlRestrictDomain != "" {
-			s = append(s, ("&restrictDomain=" + p.CrawlRestrictDomain)...)
+			s.Add("restrictDomain", p.CrawlRestrictDomain)
 		}
 		if p.CrawlNotifyEmail != "" {
-			s = append(s, ("&notifyEmail=" + p.CrawlNotifyEmail)...)
+			s.Add("notifyEmail", p.CrawlNotifyEmail)
 		}
 		if p.CrawlNotifyWebHook != "" {
-			s = append(s, ("&notifyWebHook=" + p.CrawlNotifyWebHook)...)
+			s.Add("notifyWebHook", p.CrawlNotifyWebHook)
 		}
 		if p.CrawlDelay != "" {
-			s = append(s, ("&crawlDelay=" + p.CrawlDelay)...)
+			s.Add("crawlDelay", p.CrawlDelay)
 		}
 		if p.CrawlRepeat != "" {
-			s = append(s, ("&repeat=" + p.CrawlRepeat)...)
+			s.Add("repeat", p.CrawlRepeat)
 		}
 		if p.CrawlOnlyProcessIfNew != "" {
-			s = append(s, ("&onlyProcessIfNew=" + p.CrawlOnlyProcessIfNew)...)
+			s.Add("onlyProcessIfNew", p.CrawlOnlyProcessIfNew)
 		}
 		if p.CrawlMaxRounds != "" {
-			s = append(s, ("&maxRounds=" + p.CrawlMaxRounds)...)
+			s.Add("maxRounds", p.CrawlMaxRounds)
 		}
 		if p.CrawlUrlPattern != "" {
-			s = append(s, ("&urlCrawlPattern=" + p.CrawlUrlPattern)...)
+			s.Add("urlCrawlPattern", p.CrawlUrlPattern)
 		}
 		if p.CrawlUrlRegexp != "" {
-			s = append(s, ("&urlCrawlRegEx=" + p.CrawlUrlRegexp)...)
+			s.Add("urlCrawlRegEx", p.CrawlUrlRegexp)
 		}
 		if p.CrawlUrlProcessPattern != "" {
-			s = append(s, ("&urlProcessPattern=" + p.CrawlUrlProcessPattern)...)
+			s.Add("urlProcessPattern", p.CrawlUrlProcessPattern)
 		}
 		if p.CrawlUrlProcessRegexp != "" {
-			s = append(s, ("&urlProcessRegEx=" + p.CrawlUrlProcessRegexp)...)
+			s.Add("urlProcessRegEx", p.CrawlUrlProcessRegexp)
 		}
 		if p.CrawlPageProcessPattern != "" {
-			s = append(s, ("&pageProcessPattern=" + p.CrawlPageProcessPattern)...)
+			s.Add("pageProcessPattern", p.CrawlPageProcessPattern)
 		}
 		if p.CrawlMaxHops != "" {
-			s = append(s, ("&maxHops=" + p.CrawlMaxHops)...)
+			s.Add("maxHops", p.CrawlMaxHops)
 		}
-		return string(s)
+		return s
 
 	case "crawl/data":
-		var s []byte
 		if p.CrawlFormat != "" {
-			s = append(s, ("&format=" + p.CrawlFormat)...)
+			s.Add("format", p.CrawlFormat)
 		}
 		if p.CrawlType != "" {
-			s = append(s, ("&type=" + p.CrawlType)...)
+			s.Add("type", p.CrawlType)
 		}
 		if p.CrawlNumber != "" {
-			s = append(s, ("&num=" + p.CrawlNumber)...)
+			s.Add("num", p.CrawlNumber)
 		}
-		return string(s)
+		return s
 
 	case "batch":
-		var s []byte
 		if p.Timeout != 0 {
 			timeout := strconv.FormatInt(int64(p.Timeout/time.Millisecond), 10)
-			s = append(s, ("&timeout=" + timeout)...)
+			s.Add("timeout", timeout)
 		}
 		if p.BatchMethod != "" {
-			s = append(s, ("&method=" + p.BatchMethod)...)
+			s.Add("method", p.BatchMethod)
 		}
 		if p.BatchRelativeUrl != "" {
-			s = append(s, ("&relative_url=" + url.QueryEscape(p.BatchRelativeUrl))...)
+			s.Add("relative_urls", url.QueryEscape(p.BatchRelativeUrl))
 		}
-		return string(s)
+		return s
 
 	default: // Custom APIs
-		var s []byte
 		if p.Timeout != 0 {
 			timeout := strconv.FormatInt(int64(p.Timeout/time.Millisecond), 10)
-			s = append(s, ("&timeout=" + timeout)...)
+			s.Add("timeout", timeout)
 		}
 		if p.Callback != "" {
-			s = append(s, ("&callback=" + url.QueryEscape(p.Callback))...)
+			s.Add("callback", url.QueryEscape(p.Callback))
 		}
-		return string(s)
+		return s
 	}
 
-	return ""
+	return s
 }

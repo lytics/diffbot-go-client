@@ -5,14 +5,15 @@
 package diffbot
 
 import (
+	"net/url"
 	"testing"
 	"time"
 )
 
 func TestOptions(t *testing.T) {
 	for i, v := range testOptionsList {
-		if s := v.opt.MethodParamString(v.method); s != v.str {
-			t.Fatalf("%d: expect = %q, got = %q", i, v.str, s)
+		if s := v.opt.MethodParamString(v.method); s.Encode() != v.str {
+			t.Fatalf("%d: expect = %q, got = %q", i, v.str, s.Encode())
 		}
 	}
 }
@@ -41,7 +42,7 @@ var testOptionsList = []struct {
 			Timeout:  time.Second * 5,
 			Callback: "abc",
 		},
-		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc&discussion=false",
+		str: "callback=abc&discussion=false&fields=" + url.QueryEscape("meta,querystring,images(*)") + "&timeout=5000",
 	},
 	{
 		method: "image",
@@ -50,7 +51,7 @@ var testOptionsList = []struct {
 			Timeout:  time.Second * 5,
 			Callback: "abc",
 		},
-		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc&discussion=false",
+		str: "callback=abc&discussion=false&fields=" + url.QueryEscape("meta,querystring,images(*)") + "&timeout=5000",
 	},
 	{
 		method: "product",
@@ -59,7 +60,7 @@ var testOptionsList = []struct {
 			Timeout:  time.Second * 5,
 			Callback: "abc",
 		},
-		str: "&fields=meta,querystring,images(*)&timeout=5000&callback=abc&discussion=false",
+		str: "callback=abc&discussion=false&fields=" + url.QueryEscape("meta,querystring,images(*)") + "&timeout=5000",
 	},
 
 	// case "frontpage":
@@ -71,7 +72,7 @@ var testOptionsList = []struct {
 			Callback:     "abc",
 			FrontpageAll: "*",
 		},
-		str: "&timeout=5000&all=*",
+		str: "all=%2A&timeout=5000",
 	},
 
 	// case "analyze":
@@ -85,7 +86,7 @@ var testOptionsList = []struct {
 			ClassifierMode:  "frontpage",
 			ClassifierStats: "abc",
 		},
-		str: "&mode=frontpage&fields=meta,querystring,images(*)&stats=abc&discussion=false",
+		str: "discussion=false&fields=" + url.QueryEscape("meta,querystring,images(*)") + "&mode=frontpage&stats=abc",
 	},
 
 	// case "bulk":
