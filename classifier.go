@@ -233,7 +233,7 @@ type breadcrumb struct {
 //
 
 type ClassificationResponse struct {
-	// defualt fields
+	// default fields
 	HumanLanguage string `json:"humanLanguage"`
 	Title         string `json:"title"`
 	Type          string `json:"type"`

@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	urlPkg "net/url"
 )
 
 const (
@@ -48,7 +47,6 @@ func DiffbotServer(client *http.Client, server, method, token, url string, opt *
 
 	defer resp.Body.Close()
 	body, err = ioutil.ReadAll(resp.Body)
-
 	if len(body) != 0 {
 		var apiError Error
 		if err = apiError.ParseJson(string(body)); err != nil {
@@ -74,7 +72,8 @@ func DiffbotServer(client *http.Client, server, method, token, url string, opt *
 }
 
 func makeRequestUrl(server, method, token, webUrl string, opt *Options) string {
-	return fmt.Sprintf("%s/%s?token=%s&url=%s%s",
-		server, method, token, urlPkg.QueryEscape(webUrl), opt.MethodParamString(method),
-	)
+	query := opt.MethodParamString(method)
+	query.Add("token", token)
+	query.Add("url", webUrl)
+	return fmt.Sprintf("%s/%s?%s", server, method, query.Encode())
 }
