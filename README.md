@@ -2,13 +2,7 @@
 
 This package implements a Diffbot client library.
 
-Instasll
+Install
 
-	go get github.com/diffbot/diffbot-go-client
+	go get github.com/allisonmorgan/diffbot-go-client
 
-The Package documents at [godoc.org](http://godoc.org/github.com/diffbot/diffbot-go-client) or
-[gowalker.org](http://gowalker.org/github.com/diffbot/diffbot-go-client).
-
-Please report bugs to <chaishushan@gmail.com>.
-
-Thanks!
