@@ -429,7 +429,7 @@ func CrawlbotServer(client *http.Client, server, method, token, name string, par
 }
 
 func makeCrawlRequestUrl(server, method, token, name string, params url.Values, opt *Options) string {
-	return fmt.Sprintf("%s/%s?token=%s&name=%s%s%s",
-		server, method, token, name, params.Encode(), opt.MethodParamString(method),
+	return fmt.Sprintf("%s/%s?token=%s&name=%s&%s&%s",
+		server, method, token, name, params.Encode(), opt.MethodParamString(method).Encode(),
 	)
 }
