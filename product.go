@@ -104,12 +104,12 @@ type productImageType struct {
 //	| Optional arguments                                                                 |
 //	+----------+-------------------------------------------------------------------------+
 //	| fields   | Used to specify optional fields to be returned by the Product API. See  |
-//  |          | the Fields section below.                                               |
-//  |discussion| Pass discussion=false to disable automatic extraction of product        |
-//  |          | reviews. See below.                                                     |
+//	|          | the Fields section below.                                               |
+//	|discussion| Pass discussion=false to disable automatic extraction of product        |
+//	|          | reviews. See below.                                                     |
 //	| timeout  | Sets a value in milliseconds to wait for the retrieval/fetch of content |
-//  |          | from the requested URL. The default timeout for the third-party         |
-//  |          | response is 30 seconds (30000).                                         |
+//	|          | from the requested URL. The default timeout for the third-party         |
+//	|          | response is 30 seconds (30000).                                         |
 //	| callback | Use for jsonp requests. Needed for cross-domain ajax.                   |
 //	+----------+-------------------------------------------------------------------------+
 //
@@ -136,78 +136,78 @@ type productImageType struct {
 //	+-------------------+-------------------------------------------------------------------+
 //	| FIELD             | DESCRIPTION                                                       |
 //	+-------------------+-------------------------------------------------------------------+
-//  | type              | Type of object (always product).                                  |
-//  | pageUrl           | URL of submitted page / page from which the product is extracted. |
-//  |resolvedPageUrl    | Returned if the pageUrl redirects to another URL.                 |
-//  | title             | Title of the product.                                             |
-//  | text              | Text description, if available, of the product.                   |
-//  | brand             | Item's brand name.                                                |
-//  | offerPrice        | Offer or actual/final price of the product.                       |
-//  | regularPrice	    | Regular or original price of the product, if available.           |
-//  | shippingAmount    | Shipping price.                                                   |
-//  | saveAmount	    | Discount or amount saved off the regular price.                   |
-//  | priceRange	    | If the product is available in a range of prices, the minimum and |
-//  |  |                | maximum values will be returned. The lowest price will also be    |
-//  |  |                | returned as the offerPrice.                                       |
-//  |  +- minPrice	    | The minimum price for the offered item.                           |
-//  |  +- maxPrice      | The maximum price for the offered item.                           |
-//  | quantityPrices    | If the product is available with quantity-based discounts, all    |
-//  |  |                | identifiable price points will be returned. The lowest price will |
-//  |  |                | also be returned as the offerPrice.                               |
-//  |  +-minQuantity    | The minimum quantity required to purchase for the associated      |
-//  |  |                | price.                                                            |
-//  |  +- price 	    | Price of the specific quantity level.                             |
-//  | offerPriceDetails | offerPrice separated into its constituent parts: amount, symbol,  |
-//  |                   | and full text.                                                    |
-//  |regularPriceDetails| regularPrice separated into its constituent parts: amount, symbol,|
-//  |                   | and full text.                                                    |
-//  | saveAmountDetails	| saveAmount separated into its constituent parts: amount, symbol,  |
-//  |                   | full text, and whether or not it is a percentage value.           |
-//  | productId	        | Diffbot-determined unique product ID. If upc, isbn, mpn or sku    |
-//  |                   | are identified on the page, productId will select from these      |
-//  |                   | values in the above order.                                        |
-//  | upc	            | Universal Product Code (UPC/EAN), if available.                   |
-//  | sku	            | Stock Keeping Unit -- store/vendor inventory number or identifier.|
-//  | mpn	            | Manufacturer's Product Number.                                    |
-//  | isbn	            | International Standard Book Number (ISBN), if available.          |
-//  | specs	            | If a specifications table or similar data is available on the     |
-//  |                   | product page, individual specifications will be returned in the   |
-//  |                   | specs object as name/value pairs. Names will be normalized to     |
-//  |                   | lowercase with spaces replaced by underscores, e.g.               |
-//  |                   | display_resolution.                                               |
-//  | images            | Array of images, if present within the product.                   |
-//  |  +- url	        | Fully resolved link to image. If the image SRC is encoded as      |
-//  |  |                | base64 data, the complete data URI will be returned.              |
-//  |  +- title	        | Description or caption of the image.                              |
-//  |  +- naturalHeight	| Raw image height, in pixels.                                      |
-//  |  +- naturalWidth	| Raw image width, in pixels.                                       |
-//  |  +- primary	    | Returns true if image is identified as primary based on visual    |
-//  |  |                | analysis.                                                         |
-//  |  +- xpath	        | XPath expression identifying the image node.                      |
-//  |  +- diffbotUri	| Internal ID used for indexing.                                    |
-//  | discussion	    | Product reviews, as extracted by the Diffbot Discussion API. See  |
-//  |                   | below.                                                            |
-//  | prefixCode	    | Country of origin as identified by UPC/ISBN.                      |
-//  | productOrigin	    | If available, two-character ISO country code where the product    |
-//  |                   | was produced.                                                     |
-//  | humanLanguage	    | Returns the (spoken/human) language of the submitted page, using  |
-//  |                   | two-letter ISO 639-1 nomenclature.                                |
-//  | diffbotUri	    | Unique object ID. The diffbotUri is generated from the values of  |
-//  |                   | various Product fields and uniquely identifies the object. This   |
-//  |                   | can be used for deduplication.                                    |
-//  +---------------------------------------------------------------------------------------+
-//  | Optional fields, available using fields= argument                                     |
-//  +---------------------------------------------------------------------------------------+
+//	| type              | Type of object (always product).                                  |
+//	| pageUrl           | URL of submitted page / page from which the product is extracted. |
+//	|resolvedPageUrl    | Returned if the pageUrl redirects to another URL.                 |
+//	| title             | Title of the product.                                             |
+//	| text              | Text description, if available, of the product.                   |
+//	| brand             | Item's brand name.                                                |
+//	| offerPrice        | Offer or actual/final price of the product.                       |
+//	| regularPrice      | Regular or original price of the product, if available.           |
+//	| shippingAmount    | Shipping price.                                                   |
+//	| saveAmount        | Discount or amount saved off the regular price.                   |
+//	| priceRange        | If the product is available in a range of prices, the minimum and |
+//	|  |                | maximum values will be returned. The lowest price will also be    |
+//	|  |                | returned as the offerPrice.                                       |
+//	|  +- minPrice      | The minimum price for the offered item.                           |
+//	|  +- maxPrice      | The maximum price for the offered item.                           |
+//	| quantityPrices    | If the product is available with quantity-based discounts, all    |
+//	|  |                | identifiable price points will be returned. The lowest price will |
+//	|  |                | also be returned as the offerPrice.                               |
+//	|  +-minQuantity    | The minimum quantity required to purchase for the associated      |
+//	|  |                | price.                                                            |
+//	|  +- price         | Price of the specific quantity level.                             |
+//	| offerPriceDetails | offerPrice separated into its constituent parts: amount, symbol,  |
+//	|                   | and full text.                                                    |
+//	|regularPriceDetails| regularPrice separated into its constituent parts: amount, symbol,|
+//	|                   | and full text.                                                    |
+//	| saveAmountDetails	| saveAmount separated into its constituent parts: amount, symbol,  |
+//	|                   | full text, and whether or not it is a percentage value.           |
+//	| productId         | Diffbot-determined unique product ID. If upc, isbn, mpn or sku    |
+//	|                   | are identified on the page, productId will select from these      |
+//	|                   | values in the above order.                                        |
+//	| upc               | Universal Product Code (UPC/EAN), if available.                   |
+//	| sku               | Stock Keeping Unit -- store/vendor inventory number or identifier.|
+//	| mpn               | Manufacturer's Product Number.                                    |
+//	| isbn              | International Standard Book Number (ISBN), if available.          |
+//	| specs             | If a specifications table or similar data is available on the     |
+//	|                   | product page, individual specifications will be returned in the   |
+//	|                   | specs object as name/value pairs. Names will be normalized to     |
+//	|                   | lowercase with spaces replaced by underscores, e.g.               |
+//	|                   | display_resolution.                                               |
+//	| images            | Array of images, if present within the product.                   |
+//	|  +- url           | Fully resolved link to image. If the image SRC is encoded as      |
+//	|  |                | base64 data, the complete data URI will be returned.              |
+//	|  +- title         | Description or caption of the image.                              |
+//	|  +- naturalHeight | Raw image height, in pixels.                                      |
+//	|  +- naturalWidth  | Raw image width, in pixels.                                       |
+//	|  +- primary       | Returns true if image is identified as primary based on visual    |
+//	|  |                | analysis.                                                         |
+//	|  +- xpath         | XPath expression identifying the image node.                      |
+//	|  +- diffbotUri    | Internal ID used for indexing.                                    |
+//	| discussion        | Product reviews, as extracted by the Diffbot Discussion API. See  |
+//	|                   | below.                                                            |
+//	| prefixCode        | Country of origin as identified by UPC/ISBN.                      |
+//	| productOrigin     | If available, two-character ISO country code where the product    |
+//	|                   | was produced.                                                     |
+//	| humanLanguage     | Returns the (spoken/human) language of the submitted page, using  |
+//	|                   | two-letter ISO 639-1 nomenclature.                                |
+//	| diffbotUri        | Unique object ID. The diffbotUri is generated from the values of  |
+//	|                   | various Product fields and uniquely identifies the object. This   |
+//	|                   | can be used for deduplication.                                    |
+//	+---------------------------------------------------------------------------------------+
+//	| Optional fields, available using fields= argument                                     |
+//	+---------------------------------------------------------------------------------------+
 //	| links             | Returns a top-level object (links) containing all hyperlinks      |
-//  |                   | found on the page.                                                |
+//	|                   | found on the page.                                                |
 //	| meta              | Returns a top-level object (meta) containing the full contents of |
-//  |                   | page meta tags, including sub-arrays for OpenGraph tags, Twitter  |
-//  |                   | Card metadata, schema.org microdata, and -- if available -- oEmbed|
-//  |                   | metadata.                                                         |
+//	|                   | page meta tags, including sub-arrays for OpenGraph tags, Twitter  |
+//	|                   | Card metadata, schema.org microdata, and -- if available -- oEmbed|
+//	|                   | metadata.                                                         |
 //	| querystring       | Returns any key/value pairs present in the URL querystring. Items |
-//  |                   | without a discrete value will be returned as true.                |
+//	|                   | without a discrete value will be returned as true.                |
 //	| breadcrumb        | Returns a top-level array (breadcrumb) of URLs and link text from |
-//  |                   | page breadcrumbs.                                                 |
+//	|                   | page breadcrumbs.                                                 |
 //	+---------------------------------------------------------------------------------------+
 //	| The following fields are in an early beta stage:                                      |
 //	+---------------------------------------------------------------------------------------+

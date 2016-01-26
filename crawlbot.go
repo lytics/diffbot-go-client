@@ -68,22 +68,22 @@ type jobStatusType struct {
 //	+-----------+-------------------------------------------------------------------------+
 //	| PARAMETER | DESCRIPTION                                                             |
 //	+-----------+-------------------------------------------------------------------------+
-//  | token	    | Developer token                                                         |
-//  | name	    | Job name. This should be a unique identifier and can be used to modify  |
-//  |           | your crawl or retrieve its output.                                      |
-//  | seeds	    | Seed URL(s). Must be URL encoded. Separate multiple URLs with           |
-//  |           | whitespace to spider multiple sites within the same crawl. By default   |
-//  |           | Crawlbot will restrict spidering to the entire domain                   |
-//  |           | ("http://blog.diffbot.com" will include URLs at                         |
-//  |           | "http://www.diffbot.com").											  |
-//  | apiUrl	| Full Diffbot API URL through which to process pages. E.g.,              |
-//  |           | &apiUrl=http://api.diffbot.com/v3/article to process matching links via |
-//  |           | the Article API. The Diffbot API URL can include querystring parameters |
-//  |           | to tailor the output. For example,                                      |
-//  |           | &apiUrl=http://api.diffbot.com/v3/product?fields=querystring,meta will  |
-//  |           | process matching links using the Product API, and also return the       |
-//  |           | querystring and meta fields.                                            |
-//  +-----------+-------------------------------------------------------------------------+
+//	| token     | Developer token                                                         |
+//	| name      | Job name. This should be a unique identifier and can be used to modify  |
+//	|           | your crawl or retrieve its output.                                      |
+//	| seeds     | Seed URL(s). Must be URL encoded. Separate multiple URLs with           |
+//	|           | whitespace to spider multiple sites within the same crawl. By default   |
+//	|           | Crawlbot will restrict spidering to the entire domain                   |
+//	|           | ("http://blog.diffbot.com" will include URLs at                         |
+//	|           | "http://www.diffbot.com").											  |
+//	| apiUrl    | Full Diffbot API URL through which to process pages. E.g.,              |
+//	|           | &apiUrl=http://api.diffbot.com/v3/article to process matching links via |
+//	|           | the Article API. The Diffbot API URL can include querystring parameters |
+//	|           | to tailor the output. For example,                                      |
+//	|           | &apiUrl=http://api.diffbot.com/v3/product?fields=querystring,meta will  |
+//	|           | process matching links using the Product API, and also return the       |
+//	|           | querystring and meta fields.                                            |
+//	+-----------+-------------------------------------------------------------------------+
 //
 // To automatically identify and process content using our Page Classifier API (Smart Processing), pass
 // apiUrl=http://api.diffbot.com/v3/analyze?mode=auto to return all page-types. See full Page Classifier
@@ -95,57 +95,57 @@ type jobStatusType struct {
 //	+-------------------+-------------------------------------------------------------------------+
 //	| PARAMETER         | DESCRIPTION                                                             |
 //	+-------------------+-------------------------------------------------------------------------+
-//  | urlCrawlPattern   | Specify ||-separated strings to limit pages crawled to those whose URLs |
-//  |                   | contain any of the content strings. You can use the exclamation point to|
-//  |                   | specify a negative string, e.g. !product to exclude URLs containing the |
-//  |                   | string "product," and the ^ and $ characters to limit matches to the    |
-//  |                   | beginning or end of the URL.                                            |
-//  |                   | The use of a urlCrawlPattern will allow Crawlbot to spider outside of   |
-//  |                   | the seed domain; it will follow all matching URLs regardless of domain. |
-//  | urlCrawlRegEx	    | Specify a regular expression to limit pages crawled to those URLs that  |
-//  |                   | match your expression. This will override any urlCrawlPattern value.    |
-//  |                   | The use of a urlCrawlRegEx will allow Crawlbot to spider outside of the |
-//  |                   | seed domain; it will follow all matching URLs regardless of domain.     |
-//  | urlProcessPattern | Specify ||-separated strings to limit pages processed to those whose    |
-//  |                   | URLs contain any of the content strings. You can use the exclamation    |
-//  |                   | point to specify a negative string, e.g. !/category to exclude URLs     |
-//  |                   | containing the string "/category," and the ^ and $ characters to limit  |
-//  |                   | matches to the beginning or end of the URL.                             |
-//  | urlProcessRegEx	| Specify a regular expression to limit pages processed to those URLs that|
-//  |                   | match your expression. This will override any urlProcessPattern value.  |
-//  | pageProcessPattern| Specify ||-separated strings to limit pages processed to those whose    |
-//  |                   | HTML contains any of the content strings.                               |
-//  +-------------------+-------------------------------------------------------------------------+
-//  | Additional (optional) Parameters:                                                           |
-//  +-------------------+-------------------------------------------------------------------------+
-//  | maxHops	        | Specify the depth of your crawl. A maxHops=0 will limit processing to   |
-//  |                   | the seed URL(s) only -- no other links will be processed; maxHops=1 will|
-//  |                   | process all (otherwise matching) pages whose links appear on seed       |
-//  |                   | URL(s); maxHops=2 will process pages whose links appear on those pages; |
-//  |                   | and so on.                                                              |
-//  |                   | By default (maxHops=-1) Crawlbot will crawl and process links at any    |
-//  |                   | depth.                                                                  |
-//  | maxToCrawl	    | Specify max pages to spider. Default: 100,000.                          |
-//  | maxToProcess	    | Specify max pages to process through Diffbot APIs. Default: 100,000.    |
-//  | notifyEmail	    | Send a message to this email address when the crawl hits the maxToCrawl |
-//  |                   | or maxToProcess limit, or when the crawl completes.                     |
-//  | notifyWebhook	    | Pass a URL to be notified when the crawl hits the maxToCrawl or         |
-//  |                   | maxToProcess limit, or when the crawl completes. You will receive a POST|
-//  |                   | with X-Crawl-Name and X-Crawl-Status in the headers, and the full JSON  |
-//  |                   | response in the POST body.                                              |
-//  |                   | We've integrated with Zapier to make webhooks even more powerful; read  |
-//  |                   | more on what you can do with Zapier and Diffbot.                        |
-//  | crawlDelay	    | Wait this many seconds between each URL crawled from a single IP        |
-//  |                   | address. Specify the number of seconds as an integer or floating-point  |
-//  |                   | number (e.g., crawlDelay=0.25).                                         |
-//  | repeat	        | Specify the number of days as a floating-point (e.g. repeat=7.0) to     |
-//  |                   | repeat this crawl. By default crawls will not be repeated.              |
-//  | onlyProcessIfNew	| By default repeat crawls will only process new (previously unprocessed) |
-//  |                   | pages. Set to 0 (onlyProcessIfNew=0) to process all content on repeat   |
-//  |                   | crawls.                                                                 |
-//  | maxRounds	Specify | the maximum number of crawl repeats. By default (maxRounds=0) repeating |
-//  |                   | crawls will continue indefinitely.                                      |
-//  +-------------------+-------------------------------------------------------------------------+
+//	| urlCrawlPattern   | Specify ||-separated strings to limit pages crawled to those whose URLs |
+//	|                   | contain any of the content strings. You can use the exclamation point to|
+//	|                   | specify a negative string, e.g. !product to exclude URLs containing the |
+//	|                   | string "product," and the ^ and $ characters to limit matches to the    |
+//	|                   | beginning or end of the URL.                                            |
+//	|                   | The use of a urlCrawlPattern will allow Crawlbot to spider outside of   |
+//	|                   | the seed domain; it will follow all matching URLs regardless of domain. |
+//	| urlCrawlRegEx	    | Specify a regular expression to limit pages crawled to those URLs that  |
+//	|                   | match your expression. This will override any urlCrawlPattern value.    |
+//	|                   | The use of a urlCrawlRegEx will allow Crawlbot to spider outside of the |
+//	|                   | seed domain; it will follow all matching URLs regardless of domain.     |
+//	| urlProcessPattern | Specify ||-separated strings to limit pages processed to those whose    |
+//	|                   | URLs contain any of the content strings. You can use the exclamation    |
+//	|                   | point to specify a negative string, e.g. !/category to exclude URLs     |
+//	|                   | containing the string "/category," and the ^ and $ characters to limit  |
+//	|                   | matches to the beginning or end of the URL.                             |
+//	| urlProcessRegEx   | Specify a regular expression to limit pages processed to those URLs that|
+//	|                   | match your expression. This will override any urlProcessPattern value.  |
+//	| pageProcessPattern| Specify ||-separated strings to limit pages processed to those whose    |
+//	|                   | HTML contains any of the content strings.                               |
+//	+-------------------+-------------------------------------------------------------------------+
+//	| Additional (optional) Parameters:                                                           |
+//	+-------------------+-------------------------------------------------------------------------+
+//	| maxHops           | Specify the depth of your crawl. A maxHops=0 will limit processing to   |
+//	|                   | the seed URL(s) only -- no other links will be processed; maxHops=1 will|
+//	|                   | process all (otherwise matching) pages whose links appear on seed       |
+//	|                   | URL(s); maxHops=2 will process pages whose links appear on those pages; |
+//	|                   | and so on.                                                              |
+//	|                   | By default (maxHops=-1) Crawlbot will crawl and process links at any    |
+//	|                   | depth.                                                                  |
+//	| maxToCrawl        | Specify max pages to spider. Default: 100,000.                          |
+//	| maxToProcess      | Specify max pages to process through Diffbot APIs. Default: 100,000.    |
+//	| notifyEmail       | Send a message to this email address when the crawl hits the maxToCrawl |
+//	|                   | or maxToProcess limit, or when the crawl completes.                     |
+//	| notifyWebhook	    | Pass a URL to be notified when the crawl hits the maxToCrawl or         |
+//	|                   | maxToProcess limit, or when the crawl completes. You will receive a POST|
+//	|                   | with X-Crawl-Name and X-Crawl-Status in the headers, and the full JSON  |
+//	|                   | response in the POST body.                                              |
+//	|                   | We've integrated with Zapier to make webhooks even more powerful; read  |
+//	|                   | more on what you can do with Zapier and Diffbot.                        |
+//	| crawlDelay        | Wait this many seconds between each URL crawled from a single IP        |
+//	|                   | address. Specify the number of seconds as an integer or floating-point  |
+//	|                   | number (e.g., crawlDelay=0.25).                                         |
+//	| repeat            | Specify the number of days as a floating-point (e.g. repeat=7.0) to     |
+//	|                   | repeat this crawl. By default crawls will not be repeated.              |
+//	| onlyProcessIfNew  | By default repeat crawls will only process new (previously unprocessed) |
+//	|                   | pages. Set to 0 (onlyProcessIfNew=0) to process all content on repeat   |
+//	|                   | crawls.                                                                 |
+//	| maxRounds	Specify | the maximum number of crawl repeats. By default (maxRounds=0) repeating |
+//	|                   | crawls will continue indefinitely.                                      |
+//	+-------------------+-------------------------------------------------------------------------+
 //
 // Response
 //
@@ -164,19 +164,19 @@ type jobStatusType struct {
 //	+------------+-------------------------------------------------------------------------+
 //	| PARAMETER  | DESCRIPTION                                                             |
 //	+------------+-------------------------------------------------------------------------+
-//  | token      | Developer token                                                         |
-//  | name	     | Job name as defined when the crawl was created.                         |
-//  +------------+-------------------------------------------------------------------------+
-//  | Job-control arguments                                                                |
-//  +------------+-------------------------------------------------------------------------+
-//  | roundStart | Pass roundStart=1 to force the start of a new crawl "round" (manually   |
-//  |            | repeat the crawl). If onlyProcessIfNew is set to 1 (default), only      |
-//  |            | newly-created pages will be processed.                                  |
-//  | pause	     | Pass pause=1 to pause a crawl. Pass pause=0 to resume a paused crawl.   |
-//  | restart	 | Restart removes all crawled data while maintaining crawl settings. Pass |
-//  |            | restart=1 to restart a crawl.                                           |
-//  | delete	 | Pass delete=1 to delete a crawl, and all associated data, completely.   |
-//  +------------+-------------------------------------------------------------------------+
+//	| token      | Developer token                                                         |
+//	| name       | Job name as defined when the crawl was created.                         |
+//	+------------+-------------------------------------------------------------------------+
+//	| Job-control arguments                                                                |
+//	+------------+-------------------------------------------------------------------------+
+//	| roundStart | Pass roundStart=1 to force the start of a new crawl "round" (manually   |
+//	|            | repeat the crawl). If onlyProcessIfNew is set to 1 (default), only      |
+//	|            | newly-created pages will be processed.                                  |
+//	| pause      | Pass pause=1 to pause a crawl. Pass pause=0 to resume a paused crawl.   |
+//	| restart    | Restart removes all crawled data while maintaining crawl settings. Pass |
+//	|            | restart=1 to restart a crawl.                                           |
+//	| delete     | Pass delete=1 to delete a crawl, and all associated data, completely.   |
+//	+------------+-------------------------------------------------------------------------+
 //
 // Retrieving Crawlbot API Data
 //
@@ -186,17 +186,17 @@ type jobStatusType struct {
 //	+-----------+-------------------------------------------------------------------------+
 //	| PARAMETER | DESCRIPTION                                                             |
 //	+-----------+-------------------------------------------------------------------------+
-//  | token	    | Diffbot token.                                                          |
-//  | name    	| Name of the crawl whose data you wish to download.                      |
-//  | format	| Request format=csv to download the extracted data in CSV format         |
-//  |           | (default: json). Note that CSV files will only contain top-level fields.|
-//  +-----------+-------------------------------------------------------------------------+
-//  | For diagnostic data:                                                                |
-//  +-----------+-------------------------------------------------------------------------+
-//  | type	    | Request type=urls to retrieve the crawl URL Report (CSV).               |
-//  | num	    | Pass an integer value (e.g. num=100) to request a subset of URLs, most  |
-//  |           | recently crawled first.                                                 |
-//  +-----------+-------------------------------------------------------------------------+
+//	| token	    | Diffbot token.                                                          |
+//	| name      | Name of the crawl whose data you wish to download.                      |
+//	| format    | Request format=csv to download the extracted data in CSV format         |
+//	|           | (default: json). Note that CSV files will only contain top-level fields.|
+//	+-----------+-------------------------------------------------------------------------+
+//	| For diagnostic data:                                                                |
+//	+-----------+-------------------------------------------------------------------------+
+//	| type      | Request type=urls to retrieve the crawl URL Report (CSV).               |
+//	| num       | Pass an integer value (e.g. num=100) to request a subset of URLs, most  |
+//	|           | recently crawled first.                                                 |
+//	+-----------+-------------------------------------------------------------------------+
 //
 // Viewing Crawl Details
 //
@@ -208,9 +208,9 @@ type jobStatusType struct {
 //	+-----------+-------------------------------------------------------------------------+
 //	| PARAMETER | DESCRIPTION                                                             |
 //	+-----------+-------------------------------------------------------------------------+
-//  | token	    | Developer token                                                         |
-//  | name	    | Name of crawl to retrieve.                                              |
-//  +-----------+-------------------------------------------------------------------------+
+//	| token     | Developer token                                                         |
+//	| name      | Name of crawl to retrieve.                                              |
+//	+-----------+-------------------------------------------------------------------------+
 //
 // To view all crawls, simply omit the name parameter.
 //
@@ -271,18 +271,18 @@ type jobStatusType struct {
 //
 //	+-----------+-------------------------------------------------------------------------+
 //	| STATUS    | DESCRIPTION                                                             |
-//  +-----------+-------------------------------------------------------------------------+
-//  | 0	        | Job is initializing                                                     |
-//  | 1     	| Job has reached maxRounds limit                                         |
-//  | 2	        | Job has reached maxToCrawl limit                                        |
-//  | 3	        | Job has reached maxToProcess limit                                      |
-//  | 4	        | Next round to start in _____ seconds                                    |
-//  | 5	        | No URLs were added to the crawl                                         |
-//  | 6	        | Job paused                                                              |
-//  | 7	        | Job in progress                                                         |
-//  | 8	        | All crawling temporarily paused by root administrator for maintenance.  |
-//  | 9	        | Job has completed and no repeat is scheduled                            |
-//  +-----------+-------------------------------------------------------------------------+
+//	+-----------+-------------------------------------------------------------------------+
+//	| 0         | Job is initializing                                                     |
+//	| 1         | Job has reached maxRounds limit                                         |
+//	| 2         | Job has reached maxToCrawl limit                                        |
+//	| 3         | Job has reached maxToProcess limit                                      |
+//	| 4         | Next round to start in _____ seconds                                    |
+//	| 5         | No URLs were added to the crawl                                         |
+//	| 6         | Job paused                                                              |
+//	| 7         | Job in progress                                                         |
+//	| 8         | All crawling temporarily paused by root administrator for maintenance.  |
+//	| 9         | Job has completed and no repeat is scheduled                            |
+//	+-----------+-------------------------------------------------------------------------+
 //
 
 type CrawlResponse struct {

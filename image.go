@@ -87,43 +87,43 @@ type Image struct {
 //	+---------------+------------------------------------------------------------------------+
 //	| FIELD         | DESCRIPTION                                                            |
 //	+---------------+------------------------------------------------------------------------+
-//  | type          | Type of object (always image)                                          |
+//	| type          | Type of object (always image)                                          |
 //	| url           | Direct link to image file.                                             |
 //	| title         | Title or caption of the image, if available.                           |
-//  | naturalHeight | Raw image height, in pixels.                                           |
-//  | naturalWidth  | Raw image width, in pixels.                                            |
-//  | humanLanguage | Returns the (spoken/human) language of the submitted page, using       |
-//  |               | two-letter ISO 639-1 nomenclature.                                     |
-//  | anchorUrl     | If the image is hyperlinked, returns the destination URL.              |
-//  | pageUrl       | URL of submitted page / page from which the image is extracted.        |
+//	| naturalHeight | Raw image height, in pixels.                                           |
+//	| naturalWidth  | Raw image width, in pixels.                                            |
+//	| humanLanguage | Returns the (spoken/human) language of the submitted page, using       |
+//	|               | two-letter ISO 639-1 nomenclature.                                     |
+//	| anchorUrl     | If the image is hyperlinked, returns the destination URL.              |
+//	| pageUrl       | URL of submitted page / page from which the image is extracted.        |
 //	|resolvedPageUrl| Returned if the pageUrl redirects to another URL.                      |
 //	| xpath         | XPath expression identifying the image node.                           |
-//  | diffbotUri    | Unique object ID. The diffbotUri is generated from the values of       |
-//  |               | various Image fields and uniquely identifies the object. This can be   |
-//  |               | used for deduplication.                                                |
-//  +----------------------------------------------------------------------------------------+
-//  | Optional fields, available using fields= argument                                      |
-//  +----------------------------------------------------------------------------------------+
+//	| diffbotUri    | Unique object ID. The diffbotUri is generated from the values of       |
+//	|               | various Image fields and uniquely identifies the object. This can be   |
+//	|               | used for deduplication.                                                |
+//	+----------------------------------------------------------------------------------------+
+//	| Optional fields, available using fields= argument                                      |
+//	+----------------------------------------------------------------------------------------+
 //	| displayHeight | Height of image as presented in the browser (and as sized via          |
-//  |               | browser/CSS, if resized).                                              |
+//	|               | browser/CSS, if resized).                                              |
 //	| displayWidth  | Width of image as presented in the browser (and as sized via           |
-//  |               | browser/CSS, if resized).                                              |
+//	|               | browser/CSS, if resized).                                              |
 //	| links         | Returns a top-level object (links) containing all hyperlinks found on  |
-//  |               | the page.                                                              |
+//	|               | the page.                                                              |
 //	| meta          | Comma-separated list of image-embedded metadata (e.g., EXIF, XMP, ICC  |
-//  |               | Profile), if available within the image file.                          |
+//	|               | Profile), if available within the image file.                          |
 //	| querystring   | Returns any key/value pairs present in the URL querystring. Items      |
-//  |               | without a discrete value will be returned as true.                     |
-//  | breadcrumb    | Returns a top-level array (breadcrumb) of URLs and link text from page |
-//  |               | breadcrumbs.                                                           |
-//  +----------------------------------------------------------------------------------------+
-//  | The following fields are in an early beta stage:                                       |
-//  +----------------------------------------------------------------------------------------+
-//  | mentions      | Array of articles upon which the same or similar image may be found.   |
+//	|               | without a discrete value will be returned as true.                     |
+//	| breadcrumb    | Returns a top-level array (breadcrumb) of URLs and link text from page |
+//	|               | breadcrumbs.                                                           |
+//	+----------------------------------------------------------------------------------------+
+//	| The following fields are in an early beta stage:                                       |
+//	+----------------------------------------------------------------------------------------+
+//	| mentions      | Array of articles upon which the same or similar image may be found.   |
 //	| ocr           | If text is identified within the image, we will attempt to recognize   |
-//  |               | the text string.                                                       |
+//	|               | the text string.                                                       |
 //	| faces         | The x, y, height and width of coordinates of human faces. Returns null |
-//  |               | if no faces are found.                                                 |
+//	|               | if no faces are found.                                                 |
 //	+---------------+------------------------------------------------------------------------+
 //
 // Example Response
@@ -190,8 +190,8 @@ type Image struct {
 //	| X-Forward-User-Agent | Will be used as Diffbot's User-Agent header when making your request. |
 //	| X-Forward-Referer    | Will be used as Diffbot's Referer header when making your request.    |
 //	| X-Forward-Cookie     | Will be used as Diffbot's Cookie header when making your request.     |
-//  | X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
-//  | Language             | request.                                                              |
+//	| X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
+//	| Language             | request.                                                              |
 //	+----------------------+-----------------------------------------------------------------------+
 //
 // Posting Content

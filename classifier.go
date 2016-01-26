@@ -121,21 +121,21 @@ type breadcrumb struct {
 //	| Optional arguments                                                                                      |
 //	+----------+----------------------------------------------------------------------------------------------+
 //	| mode     | By default the Analyze API will fully extract all pages that match an existing Automatic API |
-//  |          | -- articles, products or image pages. Set mode to a specific page-type (e.g., mode=article)  |
-//  |          | to extract content only from that specific page-type. All other pages will simply return the |
-//  |          | default Analyze fields.                                                                      |
-//  | fallback | Force any non-extracted pages (those with a type of "other") through a specific API. For     |
-//  |          | example, to route all "other" pages through the Article API, pass &fallback=article. Pages   |
-//  |          | that utilize this functionality will return a fallbackType field at the top-level of the     |
-//  |          | response, indicating the fallback API used.                                                  |
+//	|          | -- articles, products or image pages. Set mode to a specific page-type (e.g., mode=article)  |
+//	|          | to extract content only from that specific page-type. All other pages will simply return the |
+//	|          | default Analyze fields.                                                                      |
+//	| fallback | Force any non-extracted pages (those with a type of "other") through a specific API. For     |
+//	|          | example, to route all "other" pages through the Article API, pass &fallback=article. Pages   |
+//	|          | that utilize this functionality will return a fallbackType field at the top-level of the     |
+//	|          | response, indicating the fallback API used.                                                  |
 //	| fields   | Specify optional fields to be returned from any fully-extracted pages, e.g.:                 |
-//  |          | &fields=querystring,links. See available fields within each API's individual documentation   |
-//  |          | pages.                                                                                       |
-//  |discussion| Pass discussion=false to disable automatic extraction of comments or reviews from pages      |
-//  |          | identified as articles or products. This will not affect pages identified as discussions.    |
-//  | timeout  | Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested   |
-//  |          | URL. The default timeout for the third-party response is 30 seconds (30000).                 |
-//  | callback | Use for jsonp requests. Needed for cross-domain ajax.                                        |
+//	|          | &fields=querystring,links. See available fields within each API's individual documentation   |
+//	|          | pages.                                                                                       |
+//	|discussion| Pass discussion=false to disable automatic extraction of comments or reviews from pages      |
+//	|          | identified as articles or products. This will not affect pages identified as discussions.    |
+//	| timeout  | Sets a value in milliseconds to wait for the retrieval/fetch of content from the requested   |
+//	|          | URL. The default timeout for the third-party response is 30 seconds (30000).                 |
+//	| callback | Use for jsonp requests. Needed for cross-domain ajax.                                        |
 //	+----------+----------------------------------------------------------------------------------------------+
 //
 // Response
@@ -155,23 +155,23 @@ type breadcrumb struct {
 //	+----------------+------------------------------------------------------------------+
 //	| title          | Title of the page.                                               |
 //	| type           | Page-type of the submitted URL, either article, image, product   |
-//  |                | or other.                                                        |
+//	|                | or other.                                                        |
 //	| human_language | Returns the (spoken/human) language of the submitted URL,        |
 //	|                | using two-letter ISO 639-1 nomenclature.                         |
 //	|                | Returned by default.                                             |
-//  +----------------+------------------------------------------------------------------+
-//  | Optional fields, available using fields= argument                                 |
-//  +----------------+------------------------------------------------------------------+
-//  | links          | Returns a top-level object (links) containing all hyperlinks     |
-//  |                | found on the page.                                               |
-//  | meta           | Returns a top-level object (meta) containing the full contents   |
-//  |                | of page meta tags, including sub-arrays for OpenGraph tags,      |
-//  |                | Twitter Card metadata, schema.org microdata, and -- if available |
-//  |                | -- oEmbed metadata.                                              |
-//  | querystring    | Returns any key/value pairs present in the URL querystring.      |
-//  |                | Items without a discrete value will be returned as true.         |
-//  | breadcrumb     | Returns a top-level array (breadcrumb) of URLs and link text     |
-//  |                | from page breadcrumbs.                                           |
+//	+----------------+------------------------------------------------------------------+
+//	| Optional fields, available using fields= argument                                 |
+//	+----------------+------------------------------------------------------------------+
+//	| links          | Returns a top-level object (links) containing all hyperlinks     |
+//	|                | found on the page.                                               |
+//	| meta           | Returns a top-level object (meta) containing the full contents   |
+//	|                | of page meta tags, including sub-arrays for OpenGraph tags,      |
+//	|                | Twitter Card metadata, schema.org microdata, and -- if available |
+//	|                | -- oEmbed metadata.                                              |
+//	| querystring    | Returns any key/value pairs present in the URL querystring.      |
+//	|                | Items without a discrete value will be returned as true.         |
+//	| breadcrumb     | Returns a top-level array (breadcrumb) of URLs and link text     |
+//	|                | from page breadcrumbs.                                           |
 //	+----------------+------------------------------------------------------------------+
 //
 // Example Response
@@ -227,8 +227,8 @@ type breadcrumb struct {
 //	| X-Forward-User-Agent | Will be used as Diffbot's User-Agent header when making your request. |
 //	| X-Forward-Referer    | Will be used as Diffbot's Referer header when making your request.    |
 //	| X-Forward-Cookie     | Will be used as Diffbot's Cookie header when making your request.     |
-//  | X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
-//  | Language             | request.                                                              |
+//	| X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
+//	| Language             | request.                                                              |
 //	+----------------------+-----------------------------------------------------------------------+
 //
 

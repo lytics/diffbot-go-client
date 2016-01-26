@@ -71,16 +71,16 @@ type discussionPost struct {
 //	| Optional arguments                                                         |
 //	+----------+-----------------------------------------------------------------+
 //	| fields   | Used to specify optional fields to be returned by the           |
-//  |          | Discussion API. See the Fields section below.                   |
+//	|          | Discussion API. See the Fields section below.                   |
 //	| timeout  | SSets a value in milliseconds to wait for the retrieval/fetch   |
-//  |          | of content from the requested URL. The default timeout for the  |
-//  |          | third-party response is 30 seconds (30000).                     |
+//	|          | of content from the requested URL. The default timeout for the  |
+//	|          | third-party response is 30 seconds (30000).                     |
 //	| callback | Use for jsonp requests. Needed for cross-domain ajax.           |
-//  | maxPages | Set the maximum number of pages in a thread to automatically    |
-//  |          | concatenate in a single response. Default = 1 (no               |
-//  |          | concatenation). Set maxPages=all to retrieve all pages of a     |
-//  |          | thread regardless of length. Each individual page will count as |
-//  |          | a separate API call.                                            |
+//	| maxPages | Set the maximum number of pages in a thread to automatically    |
+//	|          | concatenate in a single response. Default = 1 (no               |
+//	|          | concatenation). Set maxPages=all to retrieve all pages of a     |
+//	|          | thread regardless of length. Each individual page will count as |
+//	|          | a separate API call.                                            |
 //	+----------+-----------------------------------------------------------------+
 //
 // Response
@@ -100,60 +100,60 @@ type discussionPost struct {
 //	+------------------+------------------------------------------------------------------------+
 //	| FIELD            | DESCRIPTION                                                            |
 //	+------------------+------------------------------------------------------------------------+
-//  | type             | Type of object (always discussion).                                    |
-//  | pageUrl          | URL of submitted page / page from which the discussion is extracted.   |
+//	| type             | Type of object (always discussion).                                    |
+//	| pageUrl          | URL of submitted page / page from which the discussion is extracted.   |
 //	| resolvedPageUrl  | Returned if the pageUrl redirects to another URL.                      |
 //	| title            | Title of the discussion.                                               |
-//  | numPosts         | Number of individual posts in the thread.                              |
-//  | posts            | Array of individual posts.                                             |
-//  |  +- type         | Type of element (always post).                                         |
-//  |  +- id           | ID of the individual post. The first post of a thread will have an ID  |
-//  |  |               | of 0.                                                                  |
-//  |  +- parentId     | ID of the parent, if the post is a reply or response.                  |
-//  |  +- text         | Full text of the extracted post.                                       |
-//  |  +- html         | Diffbot-normalized HTML of the extracted post. Please see the HTML     |
-//  |  |               | Specification for a breakdown of elements and attributes returned.     |
-//  |  +- tags         | If the post is long enough, an array of tags generated from its        |
-//  |  |               | specific content.                                                      |
-//  |  +-humanLanguage | Spoken/human language of the post, using two-letter ISO 639-1          |
-//  |  |               | nomenclature.                                                          |
-//  |  +- images       | If any images are detected within post content, they will be returned  |
-//  |  |               | in a separate array. Individual array fields are the same as the       |
-//  |  |               | Article API's images array.                                            |
-//  |  +- date         | Date of post, normalized in most cases to RFC 1123 (HTTP/1.1).         |
-//  |  +- author       | Name/username of the post author.                                      |
-//  |  +- authorUrl    | URL of the author profile page, if available.                          |
-//  |  +- pageUrl      | URL of the page on which the post was found.                           |
-//  |  +- diffbotUri   | Internal ID used for indexing.                                         |
-//  | tags             | Array of tags/entities as generated from analysis of all extracted     |
-//  |                  | posts and cross-referenced with DBpedia and other data sources.        |
-//  | participants     | Number of unique participants in the discussion thread or comments.    |
-//  | numPages         | Number of pages in the thread concatenated to form the posts response. |
-//  |                  | Use maxPages to define how many pages to concatenate.                  |
-//  | nextPage         | If discussion spans multiple pages, nextPage will return the subsequent|
-//  |                  | page URL.                                                              |
-//  | nextPages        | Array of all page URLs concatenated in a multipage discussion.         |
-//  | provider         | Discussion service provider (e.g., Disqus, Facebook), if known.        |
-//  | humanLanguage    | Returns the (spoken/human) language of the submitted page, using       |
-//  |                  | two-letter ISO 639-1 nomenclature.                                     |
-//  | rssUrl           | URL of the discussion's RSS feed, if available.                        |
-//  | diffbotUri       | Unique object ID. The diffbotUri is generated from the values of       |
-//  |                  | various Discussion fields and uniquely identifies the object. This can |
-//  |                  | be used for deduplication.                                             |
-//  +-------------------------------------------------------------------------------------------+
-//  | Optional fields, available using fields= argument                                         |
-//  +-------------------------------------------------------------------------------------------+
-//  | sentiment        | Returns the sentiment score of the analyzed article text, a value      |
-//  |                  | ranging from -1.0 (very negative) to 1.0 (very positive).              |
+//	| numPosts         | Number of individual posts in the thread.                              |
+//	| posts            | Array of individual posts.                                             |
+//	|  +- type         | Type of element (always post).                                         |
+//	|  +- id           | ID of the individual post. The first post of a thread will have an ID  |
+//	|  |               | of 0.                                                                  |
+//	|  +- parentId     | ID of the parent, if the post is a reply or response.                  |
+//	|  +- text         | Full text of the extracted post.                                       |
+//	|  +- html         | Diffbot-normalized HTML of the extracted post. Please see the HTML     |
+//	|  |               | Specification for a breakdown of elements and attributes returned.     |
+//	|  +- tags         | If the post is long enough, an array of tags generated from its        |
+//	|  |               | specific content.                                                      |
+//	|  +-humanLanguage | Spoken/human language of the post, using two-letter ISO 639-1          |
+//	|  |               | nomenclature.                                                          |
+//	|  +- images       | If any images are detected within post content, they will be returned  |
+//	|  |               | in a separate array. Individual array fields are the same as the       |
+//	|  |               | Article API's images array.                                            |
+//	|  +- date         | Date of post, normalized in most cases to RFC 1123 (HTTP/1.1).         |
+//	|  +- author       | Name/username of the post author.                                      |
+//	|  +- authorUrl    | URL of the author profile page, if available.                          |
+//	|  +- pageUrl      | URL of the page on which the post was found.                           |
+//	|  +- diffbotUri   | Internal ID used for indexing.                                         |
+//	| tags             | Array of tags/entities as generated from analysis of all extracted     |
+//	|                  | posts and cross-referenced with DBpedia and other data sources.        |
+//	| participants     | Number of unique participants in the discussion thread or comments.    |
+//	| numPages         | Number of pages in the thread concatenated to form the posts response. |
+//	|                  | Use maxPages to define how many pages to concatenate.                  |
+//	| nextPage         | If discussion spans multiple pages, nextPage will return the subsequent|
+//	|                  | page URL.                                                              |
+//	| nextPages        | Array of all page URLs concatenated in a multipage discussion.         |
+//	| provider         | Discussion service provider (e.g., Disqus, Facebook), if known.        |
+//	| humanLanguage    | Returns the (spoken/human) language of the submitted page, using       |
+//	|                  | two-letter ISO 639-1 nomenclature.                                     |
+//	| rssUrl           | URL of the discussion's RSS feed, if available.                        |
+//	| diffbotUri       | Unique object ID. The diffbotUri is generated from the values of       |
+//	|                  | various Discussion fields and uniquely identifies the object. This can |
+//	|                  | be used for deduplication.                                             |
+//	+-------------------------------------------------------------------------------------------+
+//	| Optional fields, available using fields= argument                                         |
+//	+-------------------------------------------------------------------------------------------+
+//	| sentiment        | Returns the sentiment score of the analyzed article text, a value      |
+//	|                  | ranging from -1.0 (very negative) to 1.0 (very positive).              |
 //	| links            | Returns a top-level object (links) containing all hyperlinks found on  |
-//  |                  | the page.                                                              |
+//	|                  | the page.                                                              |
 //	| meta             | Returns a top-level object (meta) containing the full contents of page |
-//  |                  | meta tags, including sub-arrays for OpenGraph tags, Twitter Card       |
-//  |                  | metadata, schema.org microdata, and -- if available -- oEmbed metadata.|
+//	|                  | meta tags, including sub-arrays for OpenGraph tags, Twitter Card       |
+//	|                  | metadata, schema.org microdata, and -- if available -- oEmbed metadata.|
 //	| querystring      | Returns any key/value pairs present in the URL querystring. Items      |
-//  |                  | without a discrete value will be returned as true.                     |
-//  | breadcrumb       | Returns a top-level array (breadcrumb) of URLs and link text from page |
-//  |                  | breadcrumbs.                                                           |
+//	|                  | without a discrete value will be returned as true.                     |
+//	| breadcrumb       | Returns a top-level array (breadcrumb) of URLs and link text from page |
+//	|                  | breadcrumbs.                                                           |
 //	+------------------+------------------------------------------------------------------------+
 //
 // Example Response

@@ -93,17 +93,17 @@ type articleVideoType struct {
 //	| Optional arguments                                                         |
 //	+----------+-----------------------------------------------------------------+
 //	| fields   | Used to specify optional fields to be returned by the Article   |
-//  |          | API. See the Fields section below.                              |
-//  | paging   | Pass paging=false to disable automatic concatenation of         |
-//  |          | multiple-page articles. (By default, Diffbot will concatenate   |
-//  |          | up to 20 pages of a single article.)                            |
-//  | maxTags  | Set the maximum number of automatically-generated tags to       |
-//  |          | return. By default a maximum of five tags will be returned.     |
-//  |discussion| Pass discussion=false to disable automatic extraction of        |
-//  |          | article comments.                                               |
+//	|          | API. See the Fields section below.                              |
+//	| paging   | Pass paging=false to disable automatic concatenation of         |
+//	|          | multiple-page articles. (By default, Diffbot will concatenate   |
+//	|          | up to 20 pages of a single article.)                            |
+//	| maxTags  | Set the maximum number of automatically-generated tags to       |
+//	|          | return. By default a maximum of five tags will be returned.     |
+//	|discussion| Pass discussion=false to disable automatic extraction of        |
+//	|          | article comments.                                               |
 //	| timeout  | Sets a value in milliseconds to wait for the retrieval/fetch of |
-//  |          | content from the requested URL. The default timeout for the     |
-//  |          | third-party response is 30 seconds (30000).                     |
+//	|          | content from the requested URL. The default timeout for the     |
+//	|          | third-party response is 30 seconds (30000).                     |
 //	| callback | Use for jsonp requests. Needed for cross-domain ajax.           |
 //	+----------+-----------------------------------------------------------------+
 //
@@ -132,78 +132,78 @@ type articleVideoType struct {
 //	+------------------+------------------------------------------------------------------------+
 //	| FIELD            | DESCRIPTION                                                            |
 //	+------------------+------------------------------------------------------------------------+
-//  | type             | Type of object (always article).                                       |
+//	| type             | Type of object (always article).                                       |
 //	| title            | Title of the article.                                                  |
-//  | text             | Full text of the article.                                              |
-//  | html             | Diffbot-normalized HTML of the extracted article. Please see the HTML  |
-//  |                  | Specification for a breakdown of elements and attributes returned.     |
-//  | date             | Date of extracted article, normalized in most cases to RFC 1123        |
-//  |                  | (HTTP/1.1).                                                            |
-//  | estimatedDate    | If an article's date is ambiguous, Diffbot will attempt to estimate a  |
-//  |                  | more specific timestamp using various factors. This will not be        |
-//  |                  | generated for articles older than two days, or articles without an     |
-//  |                  | identified date.                                                       |
-//  | author           | Article author.                                                        |
-//  | authorUrl        | URL of the author profile page, if available.                          |
-//  | discussion       | Article comments, as extracted by the Diffbot Discussion API.          |
-//  | humanLanguage    | Returns the (spoken/human) language of the submitted page, using       |
-//  |                  | two-letter ISO 639-1 nomenclature.                                     |
-//  | numPages         | Number of pages automatically concatenated to form the text or html    |
-//  |                  | esponse. By default, Diffbot will automatically concatenate up to 20   |
-//  |                  | pages of an article.                                                   |
-//  | nextPages        | Array of all page URLs concatenated in a multipage article.            |
-//  | siteName         | The plain-text name of the site (e.g. The New York Times or Diffbot).  |
-//  |                  | If no site name is automatically determined, the root domain           |
-//  |                  | (diffbot.com) will be returned.                                        |
-//  | publisherRegion  | If known, the region of the article publication.                       |
-//  | publisherCountry | If known, the country of the article publication.                      |
-//  | pageUrl          | URL of submitted page / page from which the article is extracted.      |
+//	| text             | Full text of the article.                                              |
+//	| html             | Diffbot-normalized HTML of the extracted article. Please see the HTML  |
+//	|                  | Specification for a breakdown of elements and attributes returned.     |
+//	| date             | Date of extracted article, normalized in most cases to RFC 1123        |
+//	|                  | (HTTP/1.1).                                                            |
+//	| estimatedDate    | If an article's date is ambiguous, Diffbot will attempt to estimate a  |
+//	|                  | more specific timestamp using various factors. This will not be        |
+//	|                  | generated for articles older than two days, or articles without an     |
+//	|                  | identified date.                                                       |
+//	| author           | Article author.                                                        |
+//	| authorUrl        | URL of the author profile page, if available.                          |
+//	| discussion       | Article comments, as extracted by the Diffbot Discussion API.          |
+//	| humanLanguage    | Returns the (spoken/human) language of the submitted page, using       |
+//	|                  | two-letter ISO 639-1 nomenclature.                                     |
+//	| numPages         | Number of pages automatically concatenated to form the text or html    |
+//	|                  | esponse. By default, Diffbot will automatically concatenate up to 20   |
+//	|                  | pages of an article.                                                   |
+//	| nextPages        | Array of all page URLs concatenated in a multipage article.            |
+//	| siteName         | The plain-text name of the site (e.g. The New York Times or Diffbot).  |
+//	|                  | If no site name is automatically determined, the root domain           |
+//	|                  | (diffbot.com) will be returned.                                        |
+//	| publisherRegion  | If known, the region of the article publication.                       |
+//	| publisherCountry | If known, the country of the article publication.                      |
+//	| pageUrl          | URL of submitted page / page from which the article is extracted.      |
 //	| resolvedPageUrl  | Returned if the pageUrl redirects to another URL.                      |
-//  | tags             | Array of tags/entities, generated from analysis of the extracted text  |
-//  |  |               | and cross-referenced with DBpedia and other data sources.              |
-//  |  +- label        | Name of the entity or tag.                                             |
-//  |  +- count        | Number of appearances the entity makes within the text content.        |
-//  |  +- score        | Rating of the entity's relevance to the overall text content (range of |
-//  |  |               | 0 to 1) based on various factors.                                      |
-//  |  +- rdfTypes     | If the entity can be represented by multiple resources, all of the     |
-//  |  |               | possible URIs will be returned.                                        |
-//  |  +- type         | Simplified type, if determined (e.g. organization or person).          |
-//  |  +- url          | Link to the primary entity at DBpedia or other data source.            |
-//  | images           | Array of images, if present within the article body.                   |
-//  |  +- url          | Fully resolved link to image. If the image SRC is encoded as base64    |
-//  |  |               | data, the complete data URI will be returned.                          |
-//  |  +- title        | Description or caption of the image.                                   |
-//  |  +- height       | Height of image as (re-)sized via browser/CSS.                         |
-//  |  +- width        | Width of image as (re-)sized via browser/CSS.                          |
-//  |  +-naturalHeight | Raw image height, in pixels.                                           |
-//  |  +-naturalWidth  | Raw image width, in pixels.                                            |
-//  |  +- primary      | Returns true if image is identified as primary based on visual         |
-//  |  |               | analysis.                                                              |
-//  |  +- diffbotUri   | Internal ID used for indexing.                                         |
-//  | videos           | Array of videos, if present within the article body.                   |
-//  |  +- url          | Fully resolved link to source video content.                           |
-//  |  +-naturalHeight | Source video height, in pixels, if available.                          |
-//  |  +-naturalWidth  | Source video width, in pixels, if available.                           |
-//  |  +- primary      | Returns true if video is identified as primary based on visual         |
-//  |  |               | analysis.                                                              |
-//  |  +- diffbotUri   | Internal ID used for indexing.                                         |
-//  | breadcrumb       | Returns a top-level array (breadcrumb) of URLs and link text from page |
-//  |                  | breadcrumbs.                                                           |
-//  | diffbotUri       | Unique object ID. The diffbotUri is generated from the values of       |
-//  |                  | various Article fields and uniquely identifies the object. This can be |
-//  |                  | used for deduplication.                                                |
-//  +-------------------------------------------------------------------------------------------+
-//  | Optional fields, available using fields= argument                                         |
-//  +-------------------------------------------------------------------------------------------+
-//  | sentiment        | Returns the sentiment score of the analyzed article text, a value      |
-//  |                  | ranging from -1.0 (very negative) to 1.0 (very positive).              |
+//	| tags             | Array of tags/entities, generated from analysis of the extracted text  |
+//	|  |               | and cross-referenced with DBpedia and other data sources.              |
+//	|  +- label        | Name of the entity or tag.                                             |
+//	|  +- count        | Number of appearances the entity makes within the text content.        |
+//	|  +- score        | Rating of the entity's relevance to the overall text content (range of |
+//	|  |               | 0 to 1) based on various factors.                                      |
+//	|  +- rdfTypes     | If the entity can be represented by multiple resources, all of the     |
+//	|  |               | possible URIs will be returned.                                        |
+//	|  +- type         | Simplified type, if determined (e.g. organization or person).          |
+//	|  +- url          | Link to the primary entity at DBpedia or other data source.            |
+//	| images           | Array of images, if present within the article body.                   |
+//	|  +- url          | Fully resolved link to image. If the image SRC is encoded as base64    |
+//	|  |               | data, the complete data URI will be returned.                          |
+//	|  +- title        | Description or caption of the image.                                   |
+//	|  +- height       | Height of image as (re-)sized via browser/CSS.                         |
+//	|  +- width        | Width of image as (re-)sized via browser/CSS.                          |
+//	|  +-naturalHeight | Raw image height, in pixels.                                           |
+//	|  +-naturalWidth  | Raw image width, in pixels.                                            |
+//	|  +- primary      | Returns true if image is identified as primary based on visual         |
+//	|  |               | analysis.                                                              |
+//	|  +- diffbotUri   | Internal ID used for indexing.                                         |
+//	| videos           | Array of videos, if present within the article body.                   |
+//	|  +- url          | Fully resolved link to source video content.                           |
+//	|  +-naturalHeight | Source video height, in pixels, if available.                          |
+//	|  +-naturalWidth  | Source video width, in pixels, if available.                           |
+//	|  +- primary      | Returns true if video is identified as primary based on visual         |
+//	|  |               | analysis.                                                              |
+//	|  +- diffbotUri   | Internal ID used for indexing.                                         |
+//	| breadcrumb       | Returns a top-level array (breadcrumb) of URLs and link text from page |
+//	|                  | breadcrumbs.                                                           |
+//	| diffbotUri       | Unique object ID. The diffbotUri is generated from the values of       |
+//	|                  | various Article fields and uniquely identifies the object. This can be |
+//	|                  | used for deduplication.                                                |
+//	+-------------------------------------------------------------------------------------------+
+//	| Optional fields, available using fields= argument                                         |
+//	+-------------------------------------------------------------------------------------------+
+//	| sentiment        | Returns the sentiment score of the analyzed article text, a value      |
+//	|                  | ranging from -1.0 (very negative) to 1.0 (very positive).              |
 //	| links            | Returns a top-level object (links) containing all hyperlinks found on  |
-//  |                  | the page.                                                              |
+//	|                  | the page.                                                              |
 //	| meta             | Returns a top-level object (meta) containing the full contents of page |
-//  |                  | meta tags, including sub-arrays for OpenGraph tags, Twitter Card       |
-//  |                  | metadata, schema.org microdata, and -- if available -- oEmbed metadata.|
+//	|                  | meta tags, including sub-arrays for OpenGraph tags, Twitter Card       |
+//	|                  | metadata, schema.org microdata, and -- if available -- oEmbed metadata.|
 //	| querystring      | Returns any key/value pairs present in the URL querystring. Items      |
-//  |                  | without a discrete value will be returned as true.                     |
+//	|                  | without a discrete value will be returned as true.                     |
 //	+------------------+------------------------------------------------------------------------+
 //
 // Comment Extraction
@@ -314,8 +314,8 @@ type articleVideoType struct {
 //	| X-Forward-User-Agent | Will be used as Diffbot's User-Agent header when making your request. |
 //	| X-Forward-Referer    | Will be used as Diffbot's Referer header when making your request.    |
 //	| X-Forward-Cookie     | Will be used as Diffbot's Cookie header when making your request.     |
-//  | X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
-//  | Language             | request.                                                              |
+//	| X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
+//	| Language             | request.                                                              |
 //	+----------------------+-----------------------------------------------------------------------+
 //
 // Posting Content

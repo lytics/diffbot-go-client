@@ -61,10 +61,10 @@ type videoImageType struct {
 //	| Optional arguments                                                                 |
 //	+----------+-------------------------------------------------------------------------+
 //	| fields   | Used to specify optional fields to be returned by the Image API. See    |
-//  |          | the Fields section below.                                               |
+//	|          | the Fields section below.                                               |
 //	| timeout  | Sets a value in milliseconds to wait for the retrieval/fetch of content |
-//  |          | from the requested URL. The default timeout for the third-party response|
-//  |          | is 30 seconds (30000).                                                  |
+//	|          | from the requested URL. The default timeout for the third-party response|
+//	|          | is 30 seconds (30000).                                                  |
 //	| callback | Use for jsonp requests. Needed for cross-domain ajax.                   |
 //	+----------+-------------------------------------------------------------------------+
 //
@@ -78,48 +78,48 @@ type videoImageType struct {
 //
 // Objects in the Product API's objects array will include the following fields:
 //
-//  +------------------+------------------------------------------------------------------------+
+//	+------------------+------------------------------------------------------------------------+
 //	| FIELD            | DESCRIPTION                                                            |
 //	+------------------+------------------------------------------------------------------------+
-//  | type			   | Type of object (always video).										    |
-//  | pageUrl	       | URL of submitted page / page from which the video is extracted.        |
-//  | resolvedPageUrl  | Returned if the pageUrl redirects to another URL.                      |
-//  | title	           | Title of the video.                                                    |
-//  | text	           | Text description, if available, of the video.                          |
-//  | url	           | Direct link to source video file, if available.                        |
-//  | html	           | Embeddable HTML of the video (if available), typically an IFRAME or    |
-//  |                  | VIDEO object.                                                          |
-//  | embedUrl	       | Embeddable URL, if available.                                          |
-//  | author	       | Video uploader or creator, if available.                               |
-//	| date	           | Date of extracted video, normalized in most cases to RFC 1123          |
-//  |                  | (HTTP/1.1).                                                            |
-//  | duration	       | Duration in seconds of the Video.                                      |
-//  | viewCount	       | Number of Video views, if available on the page.                       |
-//  | naturalHeight	   | Raw video height, if available, in pixels.                             |
-//  | naturalWidth	   | Raw video width, if available, in pixels.                              |
-//  | images	       | Array of images, if present within the video.                          |
-//  |  +- url	       | Fully resolved link to image. If the image SRC is encoded as base64    |
-//  |  |               | data, the complete data URI will be returned.                          |
-//  |  +- title	       | Description or caption of the image.                                   |
-//  | mime	           | MIME type, if available, as specified by the Video's "Content-Type."   |
-//  | humanLanguage	   | Returns the (spoken/human) language of the submitted page, using       |
-//  |                  | two-letter ISO 639-1 nomenclature.                                     |
-//  | diffbotUri	   | Unique object ID. The diffbotUri is generated from the values of       |
-//  |                  | various Video fields and uniquely identifies the object. This can be   |
-//  |                  | used for deduplication.                                                |
-//  +-------------------------------------------------------------------------------------------+
-//  | Optional fields, available using fields= argument                                         |
-//  +-------------------------------------------------------------------------------------------+
-//  | links	           | Returns a top-level object (links) containing all hyperlinks found on  |
-//  |                  | the page.                                                              |
-//  | meta	           | Returns a top-level object (meta) containing the full contents of page |
-//  |                  | meta tags, including sub-arrays for OpenGraph tags, Twitter Card       |
-//  |                  | metadata, schema.org microdata, and -- if available -- oEmbed metadata.|
-//  | querystring	   | Returns any key/value pairs present in the URL querystring. Items      |
-//  |                  | without a discrete value will be returned as true.                     |
-//  | breadcrumb	   | Returns a top-level array (breadcrumb) of URLs and link text from page |
-//  |                  | breadcrumbs.                                                           |
-//  +-------------------------------------------------------------------------------------------+
+//	| type             | Type of object (always video).										    |
+//	| pageUrl          | URL of submitted page / page from which the video is extracted.        |
+//	| resolvedPageUrl  | Returned if the pageUrl redirects to another URL.                      |
+//	| title            | Title of the video.                                                    |
+//	| text             | Text description, if available, of the video.                          |
+//	| url              | Direct link to source video file, if available.                        |
+//	| html             | Embeddable HTML of the video (if available), typically an IFRAME or    |
+//	|                  | VIDEO object.                                                          |
+//	| embedUrl         | Embeddable URL, if available.                                          |
+//	| author           | Video uploader or creator, if available.                               |
+//	| date             | Date of extracted video, normalized in most cases to RFC 1123          |
+//	|                  | (HTTP/1.1).                                                            |
+//	| duration         | Duration in seconds of the Video.                                      |
+//	| viewCount        | Number of Video views, if available on the page.                       |
+//	| naturalHeight    | Raw video height, if available, in pixels.                             |
+//	| naturalWidth     | Raw video width, if available, in pixels.                              |
+//	| images           | Array of images, if present within the video.                          |
+//	|  +- url          | Fully resolved link to image. If the image SRC is encoded as base64    |
+//	|  |               | data, the complete data URI will be returned.                          |
+//	|  +- title        | Description or caption of the image.                                   |
+//	| mime             | MIME type, if available, as specified by the Video's "Content-Type."   |
+//	| humanLanguage    | Returns the (spoken/human) language of the submitted page, using       |
+//	|                  | two-letter ISO 639-1 nomenclature.                                     |
+//	| diffbotUri       | Unique object ID. The diffbotUri is generated from the values of       |
+//	|                  | various Video fields and uniquely identifies the object. This can be   |
+//	|                  | used for deduplication.                                                |
+//	+-------------------------------------------------------------------------------------------+
+//	| Optional fields, available using fields= argument                                         |
+//	+-------------------------------------------------------------------------------------------+
+//	| links            | Returns a top-level object (links) containing all hyperlinks found on  |
+//	|                  | the page.                                                              |
+//	| meta             | Returns a top-level object (meta) containing the full contents of page |
+//	|                  | meta tags, including sub-arrays for OpenGraph tags, Twitter Card       |
+//	|                  | metadata, schema.org microdata, and -- if available -- oEmbed metadata.|
+//	| querystring      | Returns any key/value pairs present in the URL querystring. Items      |
+//	|                  | without a discrete value will be returned as true.                     |
+//	| breadcrumb       | Returns a top-level array (breadcrumb) of URLs and link text from page |
+//	|                  | breadcrumbs.                                                           |
+//	+-------------------------------------------------------------------------------------------+
 //
 // Example Response
 //
@@ -181,8 +181,8 @@ type videoImageType struct {
 //	| X-Forward-User-Agent | Will be used as Diffbot's User-Agent header when making your request. |
 //	| X-Forward-Referer    | Will be used as Diffbot's Referer header when making your request.    |
 //	| X-Forward-Cookie     | Will be used as Diffbot's Cookie header when making your request.     |
-//  | X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
-//  | Language             | request.                                                              |
+//	| X-Forward-Accept-    | Will be used as Diffbot's Accept-Language header when making your     |
+//	| Language             | request.                                                              |
 //	+----------------------+-----------------------------------------------------------------------+
 //
 // Posting Content
