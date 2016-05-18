@@ -21,7 +21,7 @@ type Article struct {
 	AuthorUrl        string              `json:"authorUrl,omitempty"`
 	Discussion       *Discussion         `json:"discussion"`
 	HumanLanguage    string              `json:"humanLanguage,omitempty"`
-	NumPages         string              `json:"numPages"`
+	NumPages         int                 `json:"numPages"`
 	NextPages        []string            `json:"nextPages"`
 	SiteName         string              `json:"siteName"`
 	PublisherRegion  string              `json:"publisherRegion,omitempty"`
