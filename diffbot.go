@@ -37,12 +37,13 @@ func DiffbotServer(client *http.Client, server, method, token, url string, opt *
 	if err != nil {
 		return nil, err
 	}
-	if opt != nil {
-		if opt.CustomHeader != nil {
-			req.Header.Add("X-Forward-User-Agent", opt.CustomHeader.Get("User-Agent"))
-			req.Header.Add("X-Forward-Referer", opt.CustomHeader.Get("Forward-Referer"))
-			req.Header.Add("X-Forward-Cookie", opt.CustomHeader.Get("Cookie"))
-			req.Header.Add("X-Forward-Accept-Language", opt.CustomHeader.Get("Accept-Language"))
+
+	if opt != nil && opt.CustomHeader != nil {
+		for key, vals := range opt.CustomHeader {
+			keyname := fmt.Sprintf("X-Forward-%s", key)
+			for _, v := range vals {
+				req.Header.Add(keyname, v)
+			}
 		}
 	}
 
