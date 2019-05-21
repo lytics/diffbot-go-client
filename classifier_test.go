@@ -25,7 +25,7 @@ func TestClassification_parseJson(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !reflect.DeepEqual(result1, result2) {
-		t.Fatalf("not equal, expect = %q, got = %q", result1, result2)
+		t.Fatalf("not equal, expect = %v, got = %v", result1, result2)
 	}
 
 	req := &Request{
@@ -36,7 +36,7 @@ func TestClassification_parseJson(t *testing.T) {
 		Version:         3,
 	}
 	if !reflect.DeepEqual(req, result1.Request) {
-		t.Fatalf("not equal, expect = \n%q, got = \n%q", result1.Request)
+		t.Fatalf("not equal, expect = \n%v, got = \n%v", req,result1.Request)
 	}
 
 	if !reflect.DeepEqual(1, len(result1.Objects)) {
