@@ -297,7 +297,7 @@ func CreateCrawl(client *http.Client, token, name string, seeds []string, apiUrl
 	}
 	values.Add("apiUrl", apiUrl)
 
-	body, err := Crawlbot(client, "crawl", token, name, values, opt)
+	body, err := postCrawl(client, DefaultServer,"crawl", token, name, values, opt)
 	if err != nil {
 		return nil, err
 	}
@@ -432,4 +432,18 @@ func makeCrawlRequestUrl(server, method, token, name string, params url.Values, 
 	return fmt.Sprintf("%s/%s?token=%s&name=%s&%s&%s",
 		server, method, token, name, params.Encode(), opt.MethodParamString(method).Encode(),
 	)
+}
+
+
+func postCrawl(client *http.Client, server, method, token, name string, params url.Values, opt *Options) (io.ReadCloser, error) {
+	uv := opt.MethodParamString(method)
+	for k, v := range opt.CustomHeader {
+		uv.Add("customHeaders", fmt.Sprintf("%s:%s", k, v[0]))
+	}
+	url := fmt.Sprintf("%s/%s?token=%s&name=%s&%s", server, method, token, name, params.Encode())
+	resp, err := http.PostForm(url, uv)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Body, nil
 }

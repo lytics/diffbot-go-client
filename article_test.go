@@ -29,11 +29,11 @@ func TestArticle_parseJson(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !reflect.DeepEqual(result1, result2) {
-		t.Fatalf("not equal, expect = %q, got = %q", result1, result2)
+		t.Fatalf("not equal, expect = %v, got = %v", result1, result2)
 	}
 
 	if !reflect.DeepEqual(testArticleValue, result1) {
-		t.Fatalf("not equal, expect = \n%q, got = \n%q", testArticleValue, result1)
+		t.Fatalf("not equal, expect = \n%v, got = \n%v", testArticleValue, result1)
 	}
 }
 

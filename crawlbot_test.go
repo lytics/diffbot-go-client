@@ -16,7 +16,7 @@ func TestCrawlbotCreate_parseJson(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !reflect.DeepEqual(result1, result2) {
-		t.Fatalf("not equal, expect = %q, got = %q", result1, result2)
+		t.Fatalf("not equal, expect = %v, got = %v", result1, result2)
 	}
 
 	req := &CrawlResponse{
@@ -24,10 +24,10 @@ func TestCrawlbotCreate_parseJson(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(req.Response, result1.Response) {
-		t.Fatalf("not equal, expect = \n%q, got = \n%q", req.Response, result1.Response)
+		t.Fatalf("not equal, expect = \n%v, got = \n%v", req.Response, result1.Response)
 	}
 	if !reflect.DeepEqual(req.Jobs, result1.Jobs) {
-		t.Fatalf("not equal, expect = \n%q, got = \n%q", req.Jobs, result1.Jobs)
+		t.Fatalf("not equal, expect = \n%v, got = \n%v", req.Jobs, result1.Jobs)
 	}
 }
 
@@ -47,7 +47,7 @@ func TestCrawlbotView_parseJson(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !reflect.DeepEqual(result1, result2) {
-		t.Fatalf("not equal, expect = %q, got = %q", result1, result2)
+		t.Fatalf("not equal, expect = %v, got = %v", result1, result2)
 	}
 
 	req := &CrawlResponse{
@@ -98,10 +98,10 @@ func TestCrawlbotView_parseJson(t *testing.T) {
 	}
 
 	if !reflect.DeepEqual(req.Response, result1.Response) {
-		t.Fatalf("not equal, expect = \n%q, got = \n%q", req.Response, result1.Response)
+		t.Fatalf("not equal, expect = \n%v, got = \n%v", req.Response, result1.Response)
 	}
 	if !reflect.DeepEqual(req.Jobs, result1.Jobs) {
-		t.Fatalf("not equal, expect = \n%q, got = \n%q", req.Jobs, result1.Jobs)
+		t.Fatalf("not equal, expect = \n%v, got = \n%v", req.Jobs, result1.Jobs)
 	}
 }
 
@@ -164,7 +164,7 @@ func TestCrawlbotData_parseJson(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !reflect.DeepEqual(result1, result2) {
-		t.Fatalf("not equal, expect = %q, got = %q", result1, result2)
+		t.Fatalf("not equal, expect = %v, got = %v", result1, result2)
 	}
 
 	req := []*Classification{
